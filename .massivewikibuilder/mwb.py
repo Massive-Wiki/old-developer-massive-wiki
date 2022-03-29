@@ -94,6 +94,7 @@ def main():
 
     argparser = init_argparse();
     args = argparser.parse_args();
+    logging.debug(f"args: {args}")
 
     # get configuration
     config = load_config(args.config)
