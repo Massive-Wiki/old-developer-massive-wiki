@@ -2,9 +2,7 @@
   ignore = "/bin/false"
   base = ".massivewikibuilder"
   publish = "output"
-  command = "cat netlify.toml"
+  command = "./mwb.py -c mwb.yaml -w .. -o output -t massive-wiki-themes/alto-thiswiki"
 
 [build.environment]
   PYTHON_VERSION = "3.8"
-  LOGLEVEL = "DEBUG"
-
