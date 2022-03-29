@@ -5,7 +5,11 @@
 - [ ] create Massive Wiki roadmap
 - [ ] create fractal/graph db of MW projects
 - [ ] try Pijul
-- [ ] Improve Massive Wiki Builder
+- [ ] try Syncthing
+- [ ] improve Massive Wiki Builder
+- [ ] create [[Opal]]
+- [ ] create [[Zirconia]]
+- [ ] create [[Pier2Pier]]
 
 ## Improve Massive Wiki Builder
 
