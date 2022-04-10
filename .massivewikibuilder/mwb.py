@@ -87,7 +87,8 @@ def read_markdown_and_front_matter(path):
 # read and convert Sidebar markdown
 def sidebar_convert_markdown(path):
     if path.exists():
-        markdown_text = path.read_text()
+        markdown_text, front_matter = read_markdown_and_front_matter(path)
+#        markdown_text = path.read_text()
     else:
         markdown_text = ''
     return markdown.convert(markdown_text)
