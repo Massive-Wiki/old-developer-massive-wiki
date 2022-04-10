@@ -86,7 +86,11 @@ def read_markdown_and_front_matter(path):
 
 # read and convert Sidebar markdown
 def sidebar_convert_markdown(path):
-    return markdown.convert(path.read_text())
+    if path.exists():
+        markdown_text = path.read_text()
+    else:
+        markdown_text = ''
+    return markdown.convert(markdown_text)
 
 
 # handle datetime.date serialization for json.dumps()
@@ -124,8 +128,8 @@ def main():
         all_pages = []
         page = j.get_template('page.html')
         build_time = datetime.datetime.now(datetime.timezone.utc).strftime("%A, %B %d, %Y at %H:%M UTC")
-#        sidebar_body = sidebar_convert_markdown(Path(dir_wiki) / 'Sidebar.md')
-        sidebar_body = markdown.convert((Path(dir_wiki) / 'Sidebar.md').read_text())
+        sidebar_body = sidebar_convert_markdown(Path(dir_wiki) / 'Sidebar.md')
+#        sidebar_body = markdown.convert((Path(dir_wiki) / 'Sidebar.md').read_text())
         for root, dirs, files in os.walk(dir_wiki):
             dirs[:] = [d for d in dirs if not d.startswith('.')]
             files = [f for f in files if not f.startswith('.')]
