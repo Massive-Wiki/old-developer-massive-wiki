@@ -2,7 +2,7 @@
 
 ## Massive Wiki Projects
 
-- [ ] create Massive Wiki roadmap
+- [x] create Massive Wiki roadmap
 - [ ] create fractal/graph db of MW projects
 - [ ] try Pijul
 - [ ] try Syncthing
@@ -15,7 +15,10 @@
 
 - [ ] home page
 - [ ] recent changes
-- [ ] sidebar
-- [ ] search
+- [x] sidebar
+- [ ] more than one sidebar
+- [ ] additional css for sidebar in Basso theme
+- [ ] search (with e.g., [Elasticlunr.js](http://elasticlunr.com/))
 - [ ] backlinks
 - [ ] fuzzy linking
+- [ ] <https://github.com/peterkaminski/massivewikibuilder/issues>
