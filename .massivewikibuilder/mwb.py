@@ -84,6 +84,15 @@ def read_markdown_and_front_matter(path):
     # return Markdown + empty dict
     return ''.join(lines), {}
 
+# read and convert Sidebar markdown to HTML
+def sidebar_convert_markdown(path):
+    if path.exists():
+        markdown_text, front_matter = read_markdown_and_front_matter(path)
+    else:
+        markdown_text = ''
+    return markdown.convert(markdown_text)
+
+
 # handle datetime.date serialization for json.dumps()
 def datetime_date_serializer(o):
     if isinstance(o, datetime.date):
@@ -119,7 +128,7 @@ def main():
         all_pages = []
         page = j.get_template('page.html')
         build_time = datetime.datetime.now(datetime.timezone.utc).strftime("%A, %B %d, %Y at %H:%M UTC")
-        sidebar_body = ''
+        sidebar_body = sidebar_convert_markdown(Path(dir_wiki) / config['sidebar'])
         for root, dirs, files in os.walk(dir_wiki):
             dirs[:] = [d for d in dirs if not d.startswith('.')]
             files = [f for f in files if not f.startswith('.')]
@@ -129,7 +138,8 @@ def main():
                 os.mkdir(Path(dir_output) / path)
             logging.debug(f"processing {files}")
             for file in files:
-                sidebar_flag = (file == config['sidebar'])
+                if file == config['sidebar']:
+                    continue
                 clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
                 if file.lower().endswith('.md'):
                     # parse Markdown file
@@ -143,8 +153,6 @@ def main():
                     # render and output HTML
                     markdown.reset() # needed for footnotes extension
                     markdown_body = markdown.convert(markdown_text)
-                    if sidebar_flag:
-                        sidebar_body = markdown_body
                     html = page.render(
                         build_time=build_time,
                         wiki_title=config['wiki_title'],
