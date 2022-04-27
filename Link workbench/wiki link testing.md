@@ -5,7 +5,7 @@ Here we are providing samples for fuzzy linking to other pages:
   - one at the root [[The Walrus]]
   - one in another folder [[Bill Anderson]]
   - one in this folder [[sameFolder note]]
-  - one in a folder in a folder [[folder in a folder test]]
+  - one in a folder in a folder [[folder in a folder test page]]
   
   
 ### 2022-04-24
