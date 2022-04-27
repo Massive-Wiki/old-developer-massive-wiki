@@ -4,7 +4,7 @@
 
 - [x] create Massive Wiki roadmap
 - [ ] create fractal/graph db of MW projects
-- [ ] try Pijul
+- [x] try Pijul
 - [ ] try Syncthing
 - [ ] improve Massive Wiki Builder
 - [ ] create [[Opal]]
@@ -13,12 +13,13 @@
 
 ## Improve Massive Wiki Builder
 
-- [ ] home page
+- [ ] fuzzy linking
+- [ ] search (with e.g., [Elasticlunr.js](http://elasticlunr.com/))
+- [ ] separate home page template (generalize to _many_ page templates)
 - [ ] recent changes
-- [x] sidebar
 - [ ] more than one sidebar
 - [ ] additional css for sidebar in Basso theme
-- [ ] search (with e.g., [Elasticlunr.js](http://elasticlunr.com/))
 - [ ] backlinks
-- [ ] fuzzy linking
 - [ ] <https://github.com/peterkaminski/massivewikibuilder/issues>
+- [ ] rewrite or otherwise improve mdx_wikilinks_plus
+- [x] sidebar
