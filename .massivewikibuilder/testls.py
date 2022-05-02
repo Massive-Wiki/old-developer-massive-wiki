@@ -20,7 +20,7 @@ def main():
     dir_wiki = Path(args.wiki).resolve().as_posix()
     print(dir_wiki)
 
-    wikifiles = []
+    wikifiles = {}
     
     for root,dirs,files in os.walk(dir_wiki):
         dirs[:]=[d for d in dirs if not d.startswith('.')]
@@ -31,8 +31,8 @@ def main():
             if file == 'netlify.toml':
                 continue
             clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
-            print( {'filename':f"/{file}", 'wikipath':f"{path}/{clean_name}"})
-#            wikifiles.append({'filename':f"/{file}",'wikipath':f"{path}/{clean_name}"})
+#            print( {'filename':f"/{file}", 'wikipath':f"{path}/{clean_name}"})
+            wikifiles[file] = f"{path}/{clean_name}"
 #            if file.lower().endswith('.md'):
 #                    print( {'title':f"{readable_path}/{file[:-3]}", 'path':f"{path}/{clean_name[:-3]}.html"})
 

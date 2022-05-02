@@ -23,6 +23,8 @@ import jinja2
 from markdown import Markdown
 from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
 
+from urllib.parse import urlunparse
+
 # set up argparse
 def init_argparse():
     parser = argparse.ArgumentParser(description='Generate HTML pages from Markdown wiki pages.')
@@ -32,12 +34,39 @@ def init_argparse():
     parser.add_argument('--wiki', '-w', required=True, help='directory containing wiki files (Markdown + other)')
     return parser
 
+wikifiles = {}
+
+def mwb_build_url(urlo, base, end, url_whitespace, url_case):
+    # TODO: use wikifiles[urlo.path] to look up wikipath
+
+    if not urlo.netloc:
+        if not end:
+            clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
+        else:
+            clean_target = re.sub(r'\s+', url_whitespace, urlo.path.rstrip('/'))
+            if clean_target.endswith(end):
+                end = ''
+        if base.endswith('/'):
+            path = "%s%s%s" % (base, clean_target.lstrip('/'), end)
+        elif base and not clean_target.startswith('/'):
+            path = "%s/%s%s" % (base, clean_target, end)
+        else:
+            path = "%s%s%s" % (base, clean_target, end)
+        if url_case == 'lowercase':
+            urlo = urlo._replace(path=path.lower() )
+        elif url_case == 'uppercase':
+            urlo = urlo._replace(path=path.upper() )
+        else:
+            urlo = urlo._replace(path=path)
+    return urlunparse(urlo)
+
 # set up markdown
 markdown_configs = {
     'mdx_wikilink_plus': {
         'base_url': '',
         'end_url': '.html',
         'url_whitespace': '_',
+        'build_url': mwb_build_url, # currently buggy
     },
 }
 markdown_extensions = [
@@ -92,7 +121,6 @@ def sidebar_convert_markdown(path):
         markdown_text = ''
     return markdown.convert(markdown_text)
 
-
 # handle datetime.date serialization for json.dumps()
 def datetime_date_serializer(o):
     if isinstance(o, datetime.date):
@@ -122,6 +150,18 @@ def main():
         logging.debug("remove existing output directory and recreate")
         shutil.rmtree(dir_output, ignore_errors=True)
         os.mkdir(dir_output)
+
+        # generate dict of files and their wikipaths
+        for root,dirs,files in os.walk(dir_wiki):
+            dirs[:]=[d for d in dirs if not d.startswith('.')]
+            files=[f for f in files if not f.startswith('.')]
+            readable_path = root[len(dir_wiki):]
+            path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', readable_path)
+            for file in files:
+                if file in ['netlify.toml']:
+                    continue
+                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
+                wikifiles[file] = f"{path}/{clean_name}"
 
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
