@@ -33,9 +33,13 @@ Alternate email: wlanderson@gmail.com
 
 Phone | SMS: +1 512-693-7378
 
+Initials: "WLA"
+
 Basic landing page (kinda old): https://about.me/wlanderson
 
 Twitter: [@band](https://twitter.com/band)
+
+Matrix: @anderbill:matrix.org
 
 Discord: anderbill#9242
 
