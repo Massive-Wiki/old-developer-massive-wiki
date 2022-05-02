@@ -1,16 +1,16 @@
-## Site Navigation
+# Site Navigation
 
-### Plans
+## Plans
 
 [[/Massive Wiki Roadmap]]  
 [[/Pier2Pier]]  
 [[/Diagrams/Notional Pier 2 Pier Screens]]
 
-### For Fun
+## For Fun
 
 [[/The Walrus]]
 
-### General Navigation
+## General Navigation
 
 [All Pages](/all-pages.html)  
 _maybe someday, Random Article!_
