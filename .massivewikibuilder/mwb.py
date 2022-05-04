@@ -38,7 +38,8 @@ wikifiles = {}
 
 def mwb_build_url(urlo, base, end, url_whitespace, url_case):
     # TODO: use wikifiles[urlo.path] to look up wikipath
-
+    print("mwb_build_url: urlo.path: ", urlo.path)
+#    print(wikifiles[urlo.path])
     if not urlo.netloc:
         if not end:
             clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
@@ -151,7 +152,7 @@ def main():
         shutil.rmtree(dir_output, ignore_errors=True)
         os.mkdir(dir_output)
 
-        # generate dict of files and their wikipaths
+        # generate dict of filenames and their wikipaths
         for root,dirs,files in os.walk(dir_wiki):
             dirs[:]=[d for d in dirs if not d.startswith('.')]
             files=[f for f in files if not f.startswith('.')]
@@ -161,8 +162,8 @@ def main():
                 if file in ['netlify.toml']:
                     continue
                 clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
-                wikifiles[file] = f"{path}/{clean_name}"
-
+                wikifiles[Path(file).name] = f"{path}/{clean_name}"
+#        print(wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
         all_pages = []
@@ -178,6 +179,7 @@ def main():
                 os.mkdir(Path(dir_output) / path)
             logging.debug(f"processing {files}")
             for file in files:
+                print("main: processing: file:  ",file)
                 if file == config['sidebar']:
                     continue
                 clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
