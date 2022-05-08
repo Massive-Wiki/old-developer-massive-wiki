@@ -8,7 +8,7 @@
 
 ## For Fun
 
-[[/The Walrus]]
+[[The Walrus]]
 
 ## General Navigation
 
