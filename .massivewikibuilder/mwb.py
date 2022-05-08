@@ -21,7 +21,11 @@ import yaml
 import jinja2
 
 from markdown import Markdown
-from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
+#from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
+# mwb wikilink testing
+sys.path.append('./mwb_wikilink_plus/')
+from mwb_wikilink_plus.mwb_wikilink_plus import WikiLinkPlusExtension
+
 
 from urllib.parse import urlunparse
 
@@ -38,8 +42,9 @@ wikifiles = {}
 
 def mwb_build_url(urlo, base, end, url_whitespace, url_case):
     # TODO: use wikifiles[urlo.path] to look up wikipath
-    print("mwb_build_url: urlo.path: ", urlo.path)
-#    print(wikifiles[urlo.path])
+    print("mwb_build_url: urlo: ", urlo)
+    if urlo.path in wikifiles.keys():
+        print("mwb_build_url: wikipath: ", wikifiles[urlo.path])
     if not urlo.netloc:
         if not end:
             clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
@@ -63,7 +68,7 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
 
 # set up markdown
 markdown_configs = {
-    'mdx_wikilink_plus': {
+    'mwb_wikilink_plus': {
         'base_url': '',
         'end_url': '.html',
         'url_whitespace': '_',
@@ -73,7 +78,7 @@ markdown_configs = {
 markdown_extensions = [
     'footnotes',
     'tables',
-    WikiLinkPlusExtension(markdown_configs['mdx_wikilink_plus']),
+    WikiLinkPlusExtension(markdown_configs['mwb_wikilink_plus']),
 ]
 markdown = Markdown(output_format="html5", extensions=markdown_extensions)
 
@@ -162,7 +167,10 @@ def main():
                 if file in ['netlify.toml']:
                     continue
                 clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
-                wikifiles[Path(file).name] = f"{path}/{clean_name}"
+                if file.endswith('.md'):
+                    wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
+                else:
+                    wikifiles[Path(file).name] = f"{path}/{clean_name}"
 #        print(wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
