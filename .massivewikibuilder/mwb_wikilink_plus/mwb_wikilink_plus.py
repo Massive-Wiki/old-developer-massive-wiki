@@ -141,6 +141,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
             base_url, end_url, url_whitespace, url_case, label_case, html_class, image_class = self._getMeta()
             urlo = urlparse(tl)
             clean_path = urlo.path.rstrip('/')
+            print("handleMatch clean_path: ", clean_path)
             if not label:
                 if clean_path:
                     label = re.sub(r'[\s_-]+', ' ', re.sub(r'\..{,4}$', r'', os.path.basename(clean_path))).strip()
@@ -184,7 +185,6 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                     a.set('class', image_class)
         else:
             a = ''
-        print("handleMatch a element: ", type(a))
         return a
 
     def _getMeta(self):
