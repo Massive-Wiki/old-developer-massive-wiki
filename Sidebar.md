@@ -2,9 +2,9 @@
 
 ## Plans
 
-[[/Massive Wiki Roadmap]]  
-[[/Pier2Pier]]  
-[[/Diagrams/Notional Pier 2 Pier Screens]]
+[[Massive Wiki Roadmap]]
+[[Pier2Pier]]
+[[Notional Pier 2 Pier Screens]]
 
 ## For Fun
 
