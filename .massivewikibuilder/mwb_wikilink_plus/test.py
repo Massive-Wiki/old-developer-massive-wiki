@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import unittest
 import markdown
 from markdown.extensions.meta import MetaExtension
-from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
+from mwb_wikilink_plus.mwb_wikilink_plus import WikiLinkPlusExtension
 
 unittest.TestLoader.sortTestMethodsUsing = None
 
@@ -58,7 +58,7 @@ text = """
     """.strip()
 
 md_configs1 = {
-                'mdx_wikilink_plus': {
+                'mwb_wikilink_plus': {
                     'base_url': '/static',
                     'end_url': '.html',
                     'url_case': 'lowercase',
@@ -68,7 +68,7 @@ md_configs1 = {
 
 
 md_configs2 = {
-                'mdx_wikilink_plus': {
+                'mwb_wikilink_plus': {
                     'base_url': '/static',
                     'end_url': '.html',
                     'url_whitespace': '-',
@@ -126,7 +126,7 @@ class TestMethods(unittest.TestCase):
 <p><img class="wikilink-image" src="https://example.com/example-tutorial.gif" /></p>
 <p><img alt="better example" class="wikilink-image" src="/static/example-tutorial.jpg" /></p>
         """.strip()
-        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs1['mdx_wikilink_plus'])]) 
+        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs1['mwb_wikilink_plus'])]) 
         html = md2.convert(text)
         # ~ print(html)
         self.assertEqual(html, output)
@@ -151,7 +151,7 @@ class TestMethods(unittest.TestCase):
 <p><img class="wikilink" src="https://dummy" /></p>
 <p><img alt="better example" class="wikilink" src="https://dummy" /></p>
         """.strip()
-        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs2['mdx_wikilink_plus'])]) 
+        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs2['mwb_wikilink_plus'])]) 
         html = md2.convert(text)
         # ~ print(html)
         self.assertEqual(html, output)
