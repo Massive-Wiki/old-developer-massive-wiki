@@ -44,8 +44,12 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
     # TODO: use wikifiles[urlo.path] to look up wikipath
     print("mwb_build_url: urlo: ", urlo)
     if urlo.path in wikifiles.keys():
-        print("mwb_build_url: wikipath: ", wikifiles[urlo.path])
-        urlo = urlo._replace(path=wikifiles[urlo.path][:-3])
+        wikipath = wikifiles[urlo.path]
+        print("mwb_build_url: wikipath: ", wikipath)
+        if wikipath.endswith('.md'):
+            urlo = urlo._replace(path=wikipath[:-3])
+        else:
+            urlo = urlo._replace(path=wikipath)
     if not urlo.netloc:
         if not end:
             clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
