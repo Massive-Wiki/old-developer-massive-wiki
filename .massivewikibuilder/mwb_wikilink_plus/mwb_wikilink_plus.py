@@ -134,14 +134,14 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
     def handleMatch(self, m):
         """Return an a element if regex matched"""
         d = m.groupdict()
-        print("handleMatch m.groupdict: ", d)
+#        print("handleMatch m.groupdict: ", d)
         tl = d.get('target')
         label = d.get('label')
         if tl:
             base_url, end_url, url_whitespace, url_case, label_case, html_class, image_class = self._getMeta()
             urlo = urlparse(tl)
             clean_path = urlo.path.rstrip('/')
-            print("handleMatch clean_path: ", clean_path)
+#            print("handleMatch clean_path: ", clean_path)
             if not label:
                 if clean_path:
                     label = re.sub(r'[\s_-]+', ' ', re.sub(r'\..{,4}$', r'', os.path.basename(clean_path))).strip()
