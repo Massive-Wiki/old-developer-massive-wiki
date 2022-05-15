@@ -18,3 +18,44 @@ search wikifiles dictionary
 
 
 ```
+
+#### 2022-05-12
+wikilink edge cases (from Pete)
+```
+-   [[wiki page]]
+-   [[Wiki Page]]
+-   [[wikI pagE]]
+-   [[WikiPage]]
+-   [[../wiki page]]
+-   [[../../wiki page]]
+-   [[../subdir/wiki page]]
+-   [[/wiki page]]
+-   [[/subdir/wiki page]]
+-   [[/subdir/../subdir2/../wiki page]]
+-   [[wiki page.md]]
+-   [[wiki page.jpg]]
+-   [[wiki page.jpeg]]
+-   [[wiki page.bmp]]
+-   [[wiki page/]]
+-   [[wiki page.exe]]
+-   [[wiki page.txt]]
+-   [[Page: Wiki]]
+-   [[Punctuation Is !@#$%^&*()_+-={}[]|\:";'<>,.?/~` Fun]]
+
+```
+
+build first tests for a small set of ordinary cases that
+1. do not have identical wiki page basenames in links to different pages
+2. can have "/" in the links
+3. have case-sensitive basenames
+
+```
+-   [[wiki page1]]
+-   [[../wiki page2]]
+-   [[../../wiki page3]]
+-   [[../subdir/wiki page4]]
+-   [[/wiki page5]]
+-   [[/subdir/wiki page6]]
+-   [[/subdir/../subdir2/../wiki page7]]
+-
+```

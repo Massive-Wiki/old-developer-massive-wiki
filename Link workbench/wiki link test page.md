@@ -1,4 +1,4 @@
-# wiki link testing
+# wiki link test page
 ### 2022-04-23
 Here we are providing samples for fuzzy linking to other pages:
 

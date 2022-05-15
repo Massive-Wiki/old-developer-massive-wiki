@@ -8,7 +8,7 @@
 
 ## For Testing
 
-[[wiki link testing]]
+[[wiki link test page]]
 
 ## For Fun
 
