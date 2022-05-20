@@ -42,10 +42,10 @@ wikifiles = {}
 
 def mwb_build_url(urlo, base, end, url_whitespace, url_case):
     # TODO: use wikifiles[urlo.path] to look up wikipath
-    print("mwb_build_url: urlo: ", urlo)
+    print("1 mwb_build_url: urlo: ", urlo)
     if urlo.path in wikifiles.keys():
         wikipath = wikifiles[urlo.path]
-        print("mwb_build_url: wikipath: ", wikipath)
+        print("2 mwb_build_url: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             urlo = urlo._replace(path=wikipath[:-3])
         else:
@@ -69,6 +69,7 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
             urlo = urlo._replace(path=path.upper() )
         else:
             urlo = urlo._replace(path=path)
+    print("3 mwb_build_url return: ", urlunparse(urlo))
     return urlunparse(urlo)
 
 # set up markdown
