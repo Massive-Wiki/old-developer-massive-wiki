@@ -41,7 +41,7 @@ def init_argparse():
 wikifiles = {}
 
 def mwb_build_url(urlo, base, end, url_whitespace, url_case):
-    # TODO: use wikifiles[urlo.path] to look up wikipath
+    # convert urlo to pathlib.Path object
     print("1 mwb_build_url: urlo, end: ", urlo, end)
     path_name = Path(urlo.path).name
     if path_name in wikifiles.keys():
@@ -55,28 +55,7 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
             urlo = urlo._replace(path=wikipath)
     else:
         wikilink = Path(path_name).as_posix()
-    if not urlo.netloc:
-        if not end:
-            clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
-        else:
-            clean_target = re.sub(r'\s+', url_whitespace, urlo.path.rstrip('/'))
-            if clean_target.endswith(end):
-                end = ''
-        if base.endswith('/'):
-            path = "%s%s%s" % (base, clean_target.lstrip('/'), end)
-        elif base and not clean_target.startswith('/'):
-            path = "%s/%s%s" % (base, clean_target, end)
-        else:
-            path = "%s%s%s" % (base, clean_target, end)
-        if url_case == 'lowercase':
-            urlo = urlo._replace(path=path.lower() )
-        elif url_case == 'uppercase':
-            urlo = urlo._replace(path=path.upper() )
-        else:
-            urlo = urlo._replace(path=path)
-    print("3 mwb_build_url return: ", urlunparse(urlo))
     print("3b mwb_build_url wikilink: ", wikilink)
-#    return urlunparse(urlo)
     return wikilink
 
 # set up markdown
