@@ -40,7 +40,7 @@ def init_argparse():
 
 wikifiles = {}
 
-def mwb_build_url(urlo, base, end, url_whitespace, url_case):
+def mwb_build_wikilink(urlo, base, end, url_whitespace, url_case):
     # convert urlo to pathlib.Path object
     print("1 mwb_build_url: urlo, end: ", urlo, end)
     path_name = Path(urlo.path).name
@@ -49,10 +49,8 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
         print("2 mwb_build_url: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
-            urlo = urlo._replace(path=wikipath[:-3])
         else:
             wikilink = Path(wikipath).as_posix()
-            urlo = urlo._replace(path=wikipath)
     else:
         wikilink = Path(path_name).as_posix()
     print("3b mwb_build_url wikilink: ", wikilink)
@@ -64,7 +62,7 @@ markdown_configs = {
         'base_url': '',
         'end_url': '.html',
         'url_whitespace': '_',
-        'build_url': mwb_build_url, # currently buggy
+        'build_url': mwb_build_wikilink, # currently buggy
     },
 }
 markdown_extensions = [
