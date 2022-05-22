@@ -59,3 +59,9 @@ build first tests for a small set of ordinary cases that
 -   [[/subdir/../subdir2/../wiki page7]]
 -
 ```
+
+
+#### 2022-05-22
+- need to handle ".txt" files (also other media and document files) explicitly, perhaps the same way as image files; or
+- perhaps build a way to create wikilinks for any file that is *not* a Markdown files with ".md" extension?
+
