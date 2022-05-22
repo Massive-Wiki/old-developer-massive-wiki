@@ -48,9 +48,13 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
         wikipath = wikifiles[path_name]
         print("2 mwb_build_url: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
+            wikilink = Path(wikipath).with_suffix('.html').as_posix()
             urlo = urlo._replace(path=wikipath[:-3])
         else:
+            wikilink = Path(wikipath).as_posix()
             urlo = urlo._replace(path=wikipath)
+    else:
+        wikilink = Path(path_name).as_posix()
     if not urlo.netloc:
         if not end:
             clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
@@ -71,7 +75,9 @@ def mwb_build_url(urlo, base, end, url_whitespace, url_case):
         else:
             urlo = urlo._replace(path=path)
     print("3 mwb_build_url return: ", urlunparse(urlo))
-    return urlunparse(urlo)
+    print("3b mwb_build_url wikilink: ", wikilink)
+#    return urlunparse(urlo)
+    return wikilink
 
 # set up markdown
 markdown_configs = {
