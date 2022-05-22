@@ -26,6 +26,7 @@ from markdown.util import etree
 import re
 import os
 from . import version
+from pathlib import Path
 
 __version__ = version.__version__
 
@@ -139,32 +140,31 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         label = d.get('label')
         if tl:
             base_url, end_url, url_whitespace, url_case, label_case, html_class, image_class = self._getMeta()
-            urlo = urlparse(tl)
-            clean_path = urlo.path.rstrip('/')
-#            print("handleMatch clean_path: ", clean_path)
-            if not label:
-                if clean_path:
-                    label = re.sub(r'[\s_-]+', ' ', re.sub(r'\..{,4}$', r'', os.path.basename(clean_path))).strip()
-                    if label_case.lower() == 'titlecase':
-                        label = title(label)
-                    elif label_case.lower() == 'capitalize':
-                        label = label.capitalize()
-                elif urlo.netloc:
-                    label = urlo.netloc
-                else:
-                    label = tl
-            if urlo.path and urlo.path != '/':
-                checkurl = urlo.path
-            else:
-                checkurl = urlo.netloc
+            clean_path = Path(tl).as_posix()
+            print("handleMatch clean_path: ", clean_path)
+#            if not label:
+#                if clean_path:
+#                    label = re.sub(r'[\s_-]+', ' ', re.sub(r'\..{,4}$', r'', os.path.basename(clean_path))).strip()
+#                    if label_case.lower() == 'titlecase':
+#                        label = title(label)
+#                    elif label_case.lower() == 'capitalize':
+#                        label = label.capitalize()
+#                elif urlo.netloc:
+#                    label = urlo.netloc
+#                else:
+#                    label = tl
+#            if urlo.path and urlo.path != '/':
+#                checkurl = urlo.path
+#            else:
+#                checkurl = urlo.netloc
             isimage = False
             imagesuffixes = ['.png', '.jpg', '.jpeg', '.gif', '.svg']
             for suffix in imagesuffixes:
-                if checkurl.lower().endswith(suffix):
+                if clean_path.lower().endswith(suffix):
                     isimage = True
                     break
             if not isimage:
-                url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
+                url = self.config['build_url'][0](clean_path, base_url, end_url, url_whitespace, url_case)
                 a = etree.Element('a')
                 a.text = label
                 a.set('href', url)
@@ -172,14 +172,14 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                     a.set('class', html_class)
             else:
                 end_url = ''
-                url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
+                url = self.config['build_url'][0](clean_path, base_url, end_url, url_whitespace, url_case)
                 a = etree.Element('img')
-                pipes = label.split('|')
-                for pipe in pipes:
-                    option = [option.strip() for option in pipe.split('=')]
-                    if option[0] == 'alt':
-                        a.set('alt', option[1])
-                        break
+#                pipes = label.split('|')
+#                for pipe in pipes:
+#                    option = [option.strip() for option in pipe.split('=')]
+#                    if option[0] == 'alt':
+#                        a.set('alt', option[1])
+#                        break
                 a.set('src', url)
                 if image_class:
                     a.set('class', image_class)

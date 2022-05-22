@@ -40,20 +40,19 @@ def init_argparse():
 
 wikifiles = {}
 
-def mwb_build_wikilink(urlo, base, end, url_whitespace, url_case):
-    # convert urlo to pathlib.Path object
-    print("1 mwb_build_url: urlo, end: ", urlo, end)
-    path_name = Path(urlo.path).name
+def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
+    print("1 mwb_build_wikilink: path: ", path)
+    path_name = Path(path).name
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
-        print("2 mwb_build_url: wikipath: ", wikipath)
+        print("2 mwb_build_wikilink: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
         else:
             wikilink = Path(wikipath).as_posix()
     else:
         wikilink = Path(path_name).as_posix()
-    print("3b mwb_build_url wikilink: ", wikilink)
+    print("3 mwb_build_wikilink return: ", wikilink)
     return wikilink
 
 # set up markdown
