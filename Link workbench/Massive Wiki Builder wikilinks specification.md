@@ -67,3 +67,29 @@ build first tests for a small set of ordinary cases that
 - need to handle ".txt" files (also other media and document files) explicitly, perhaps the same way as image files; or
 - perhaps build a way to create wikilinks for any file that is *not* a Markdown files with ".md" extension?
 
+### 2022-05-23
+
+Pete's guess at workflow for wikilinks, including wikilinks with paths:
+
+- walk the wiki, find all the filenames, lowercase the filename, and save the filepath to the file to a dictionary
+- when processing each page and converting wikilinks to HTML links:
+	- if a target string (starts with any `.` or `/` characters) or (includes a `/`  character anywhere), just append `.html` to the target to create the HTML link, and emit a diagnostic message that the link was not transformed in anyway, because it contained path-like characters (`./`).
+	- otherwise, lowercase the target string, then use it as a key to look up the filepath in the dictionary. Append `.html` to the filepath, and use that to create the HTML link
+
+Design principles:
+
+- don't try to process path characters, because handling a complicated path is complicated (e.g., `foo/../../bar/../baz`), and we don't (yet) want to promise users we will do it correctly.  instead, just pass along any target that looks like it is trying to include path characters (even if the path would be invalid).
+- at least for now, minimize the code required to handle links, to make it easier to write and maintain.
+- make links case-insensitive, by lowercasing wiki links and generated filenames.
+
+Examples:
+
+- foobar -> foobar.html
+- FooBar -> foobar.html
+- Foobar -> foobar.html
+- foo bar -> foo bar.html
+- foo/bar -> foo/bar.html
+- ./foobar -> ./foobar.html
+- .foobar -> .foobar.html (may not work properly, as designed)
+- foobar/ -> foobar/.html (may not work properly, as designed)
+- /foo/bar/baz -> /foo/bar/baz.html

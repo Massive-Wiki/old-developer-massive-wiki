@@ -134,7 +134,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
     def handleMatch(self, m):
         """Return an a element if regex matched"""
         d = m.groupdict()
-#        print("handleMatch m.groupdict: ", d)
+        print("handleMatch m.groupdict: ", d)
         tl = d.get('target')
         label = d.get('label')
         if tl:
