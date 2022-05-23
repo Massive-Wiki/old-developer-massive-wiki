@@ -40,9 +40,10 @@ def init_argparse():
 
 wikifiles = {}
 
-def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
-    print("1 mwb_build_wikilink: path: ", path)
-    path_name = Path(path).name
+def mwb_build_wikilink(urlo, base, end, url_whitespace, url_case):
+    print("1 mwb_build_wikilink: urlo: ", urlo)
+    path_name = Path(urlo.path).name
+    wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
         print("2 mwb_build_wikilink: wikipath: ", wikipath)
@@ -50,8 +51,6 @@ def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
         else:
             wikilink = Path(wikipath).as_posix()
-    else:
-        wikilink = Path(path_name).as_posix()
     print("3 mwb_build_wikilink return: ", wikilink)
     return wikilink
 
@@ -61,7 +60,7 @@ markdown_configs = {
         'base_url': '',
         'end_url': '.html',
         'url_whitespace': '_',
-        'build_url': mwb_build_wikilink, # currently buggy
+        'build_url': mwb_build_wikilink, # currently incomplete
     },
 }
 markdown_extensions = [
@@ -160,7 +159,7 @@ def main():
                     wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
                 else:
                     wikifiles[Path(file).name] = f"{path}/{clean_name}"
-#        print(wikifiles)
+        print(wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
         all_pages = []
