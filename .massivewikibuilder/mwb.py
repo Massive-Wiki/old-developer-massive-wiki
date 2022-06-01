@@ -26,9 +26,6 @@ from markdown import Markdown
 sys.path.append('./mwb_wikilink_plus/')
 from mwb_wikilink_plus.mwb_wikilink_plus import WikiLinkPlusExtension
 
-
-from urllib.parse import urlunparse
-
 # set up argparse
 def init_argparse():
     parser = argparse.ArgumentParser(description='Generate HTML pages from Markdown wiki pages.')
