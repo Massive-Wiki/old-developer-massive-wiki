@@ -40,18 +40,18 @@ def init_argparse():
 
 wikifiles = {}
 
-def mwb_build_wikilink(urlo, base, end, url_whitespace, url_case):
-    print("1 mwb_build_wikilink: urlo: ", urlo)
-    path_name = Path(urlo.path).name
+def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
+#    print("1 mwb_build_wikilink: type, path: ", type(path), path)
+    path_name = Path(path).name
     wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
-        print("2 mwb_build_wikilink: wikipath: ", wikipath)
+#        print("2 mwb_build_wikilink: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
         else:
             wikilink = Path(wikipath).as_posix()
-    print("3 mwb_build_wikilink return: ", wikilink)
+#    print("3 mwb_build_wikilink return: ", wikilink)
     return wikilink
 
 # set up markdown
@@ -159,7 +159,7 @@ def main():
                     wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
                 else:
                     wikifiles[Path(file).name] = f"{path}/{clean_name}"
-        print(wikifiles)
+#        print(wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
         all_pages = []
@@ -175,7 +175,7 @@ def main():
                 os.mkdir(Path(dir_output) / path)
             logging.debug(f"processing {files}")
             for file in files:
-                print("main: processing: file:  ",file)
+#                print("main: processing: file:  ",file)
                 if file == config['sidebar']:
                     continue
                 clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
