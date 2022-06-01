@@ -43,6 +43,7 @@ wikifiles = {}
 def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
 #    print("1 mwb_build_wikilink: type, path: ", type(path), path)
     path_name = Path(path).name
+    # mangle path_name here... change any number of ? or # to a single _
     wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
@@ -178,7 +179,7 @@ def main():
 #                print("main: processing: file:  ",file)
                 if file == config['sidebar']:
                     continue
-                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
+                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file) # mangle this so that any number of ? or # to a single _
                 if file.lower().endswith('.md'):
                     # parse Markdown file
                     markdown_text, front_matter = read_markdown_and_front_matter(Path(root) / file)

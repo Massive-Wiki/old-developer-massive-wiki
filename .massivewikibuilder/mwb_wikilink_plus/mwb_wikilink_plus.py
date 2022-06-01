@@ -135,8 +135,9 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         d = m.groupdict()
 #        print("handleMatch m.groupdict: ", d)
         tl = d.get('target')
-#        label = d.get('label')
-        label = tl
+        label = d.get('label')
+        if label is None:
+            label = tl
         if tl:
             base_url, end_url, url_whitespace, url_case, label_case, html_class, image_class = self._getMeta()
             clean_path = tl
