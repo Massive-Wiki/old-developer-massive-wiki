@@ -20,6 +20,8 @@ Another set of links with explicit paths to wiki pages for testing:
 - [[/wiki page5]]
 - [[/subdir2/wiki page6]]
 - [[text only wiki page.txt]]
+- [[is this? wiki page7]]
+- [[the special??wiki page8]]
 
 
 
