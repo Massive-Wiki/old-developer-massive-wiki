@@ -81,7 +81,7 @@ def load_config(path):
 # modify wiki path to handle '?' characters in wiki page names
 #   yet to do: handle '#' characters
 def modify_path(filepath):
-    modified_path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?]+[ ]*)', '_', filepath)
+    modified_path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?]+[ ]*)|([\#]+)', '_', filepath)
     return modified_path
 
 # take a path object pointing to a Markdown file
