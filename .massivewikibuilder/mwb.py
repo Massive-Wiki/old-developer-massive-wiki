@@ -78,8 +78,7 @@ def load_config(path):
     with open(path) as infile:
         return yaml.safe_load(infile)
 
-# modify wiki path to handle '?' characters in wiki page names
-#   yet to do: handle '#' characters
+# modify wiki path to handle '?' and '#' characters in wiki page names
 def modify_path(filepath):
     modified_path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?]+[ ]*)|([\#]+)', '_', filepath)
     return modified_path
