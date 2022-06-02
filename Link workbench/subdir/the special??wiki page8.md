@@ -1,3 +1,3 @@
 # the special??wiki page8
 
-with two , 2, count 'em, question marks (and no spaces after them) in the page name
+with two, count 'em, 2 question marks (and no spaces after them) in the page name

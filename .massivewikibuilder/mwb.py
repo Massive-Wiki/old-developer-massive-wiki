@@ -40,7 +40,6 @@ wikifiles = {}
 def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
 #    print("DEBUG 1 mwb_build_wikilink: path: ", path)
     path_name = Path(path).name
-    # DO NOT NEED TO mangle path_name here... change any number of ? or # to a single _
     wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
