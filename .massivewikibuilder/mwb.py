@@ -38,18 +38,18 @@ def init_argparse():
 wikifiles = {}
 
 def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
-#    print("1 mwb_build_wikilink: type, path: ", type(path), path)
+    print("DEBUG 1 mwb_build_wikilink: path: ", path)
     path_name = Path(path).name
     # mangle path_name here... change any number of ? or # to a single _
     wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
-#        print("2 mwb_build_wikilink: wikipath: ", wikipath)
+        print("DEBUG 2 mwb_build_wikilink: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
         else:
             wikilink = Path(wikipath).as_posix()
-#    print("3 mwb_build_wikilink return: ", wikilink)
+    print("DEBUG 3 mwb_build_wikilink return: ", wikilink)
     return wikilink
 
 # set up markdown
@@ -78,6 +78,12 @@ def jinja2_environment(path_to_templates):
 def load_config(path):
     with open(path) as infile:
         return yaml.safe_load(infile)
+
+# modify wiki path to handle '?' characters in wiki page names
+#   yet to do: handle '#' characters
+def modify_path(filepath):
+    modified_path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?]+[ ]*)', '_', filepath)
+    return modified_path
 
 # take a path object pointing to a Markdown file
 # return Markdown (as string) and YAML front matter (as dict)
@@ -152,12 +158,13 @@ def main():
             for file in files:
                 if file in ['netlify.toml']:
                     continue
-                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
+                clean_name = modify_path(file)
+#                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?][ ]+)', '_', file) # mangle
                 if file.endswith('.md'):
                     wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
                 else:
                     wikifiles[Path(file).name] = f"{path}/{clean_name}"
-#        print(wikifiles)
+        print("DEBUG: wikifiles: ", wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
         all_pages = []
@@ -176,7 +183,8 @@ def main():
 #                print("main: processing: file:  ",file)
                 if file == config['sidebar']:
                     continue
-                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file) # mangle this so that any number of ? or # to a single _
+                clean_name = modify_path(file)
+#                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?][ ]+)', '_', file) # mangle this so that any number of ? or # to a single _
                 if file.lower().endswith('.md'):
                     # parse Markdown file
                     markdown_text, front_matter = read_markdown_and_front_matter(Path(root) / file)
