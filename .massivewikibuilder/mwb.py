@@ -38,18 +38,18 @@ def init_argparse():
 wikifiles = {}
 
 def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
-    print("DEBUG 1 mwb_build_wikilink: path: ", path)
+#    print("DEBUG 1 mwb_build_wikilink: path: ", path)
     path_name = Path(path).name
-    # mangle path_name here... change any number of ? or # to a single _
+    # DO NOT NEED TO mangle path_name here... change any number of ? or # to a single _
     wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
-        print("DEBUG 2 mwb_build_wikilink: wikipath: ", wikipath)
+#        print("DEBUG 2 mwb_build_wikilink: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
         else:
             wikilink = Path(wikipath).as_posix()
-    print("DEBUG 3 mwb_build_wikilink return: ", wikilink)
+#    print("DEBUG 3 mwb_build_wikilink return: ", wikilink)
     return wikilink
 
 # set up markdown
@@ -159,12 +159,11 @@ def main():
                 if file in ['netlify.toml']:
                     continue
                 clean_name = modify_path(file)
-#                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?][ ]+)', '_', file) # mangle
                 if file.endswith('.md'):
                     wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
                 else:
                     wikifiles[Path(file).name] = f"{path}/{clean_name}"
-        print("DEBUG: wikifiles: ", wikifiles)
+#        print("DEBUG: wikifiles: ", wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
         all_pages = []
@@ -180,11 +179,10 @@ def main():
                 os.mkdir(Path(dir_output) / path)
             logging.debug(f"processing {files}")
             for file in files:
-#                print("main: processing: file:  ",file)
+#                print("DEBUG main: processing: file:  ",file)
                 if file == config['sidebar']:
                     continue
                 clean_name = modify_path(file)
-#                clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)|([?][ ]+)', '_', file) # mangle this so that any number of ? or # to a single _
                 if file.lower().endswith('.md'):
                     # parse Markdown file
                     markdown_text, front_matter = read_markdown_and_front_matter(Path(root) / file)
