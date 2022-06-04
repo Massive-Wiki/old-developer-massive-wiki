@@ -78,10 +78,10 @@ def load_config(path):
     with open(path) as infile:
         return yaml.safe_load(infile)
 
-# modify wiki path to handle '?' and '#' characters in wiki page names
-def modify_path(filepath):
-    modified_path = re.sub(r'([ _?\#]+)', '_', filepath)
-    return modified_path
+# scrub wiki path to handle ' ', '_', '?', and '#' characters in wiki page names
+def scrub_path(filepath):
+    scrubbed_path = re.sub(r'([ _?\#]+)', '_', filepath)
+    return scrubbed_path
 
 # take a path object pointing to a Markdown file
 # return Markdown (as string) and YAML front matter (as dict)
@@ -152,11 +152,11 @@ def main():
             dirs[:]=[d for d in dirs if not d.startswith('.')]
             files=[f for f in files if not f.startswith('.')]
             readable_path = root[len(dir_wiki):]
-            path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', readable_path)
+            path = scrub_path(readable_path)
             for file in files:
                 if file in ['netlify.toml']:
                     continue
-                clean_name = modify_path(file)
+                clean_name = scrub_path(file)
                 if file.endswith('.md'):
                     wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
                 else:
@@ -172,7 +172,7 @@ def main():
             dirs[:] = [d for d in dirs if not d.startswith('.')]
             files = [f for f in files if not f.startswith('.')]
             readable_path = root[len(dir_wiki)+1:]
-            path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', readable_path)
+            path = scrub_path(readable_path)
             if not os.path.exists(Path(dir_output) / path):
                 os.mkdir(Path(dir_output) / path)
             logging.debug(f"processing {files}")
@@ -180,7 +180,7 @@ def main():
 #                print("DEBUG main: processing: file:  ",file)
                 if file == config['sidebar']:
                     continue
-                clean_name = modify_path(file)
+                clean_name = scrub_path(file)
                 if file.lower().endswith('.md'):
                     # parse Markdown file
                     markdown_text, front_matter = read_markdown_and_front_matter(Path(root) / file)
