@@ -23,6 +23,7 @@ Another set of links with explicit paths to wiki pages for testing:
 - [[is this? wiki page7]]
 - [[the special??wiki page8]]
 - [[Link workbench/octothorpe #wiki page]]
+- [[Link workbench/what   about? #??____this ##page]]
 
 
 
