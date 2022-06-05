@@ -13,7 +13,7 @@
 
 ## Improve Massive Wiki Builder
 
-- [ ] fuzzy linking
+- [x] fuzzy linking
 - [ ] search (with e.g., [Elasticlunr.js](http://elasticlunr.com/))
 - [ ] separate home page template (generalize to _many_ page templates)
 - [ ] recent changes
