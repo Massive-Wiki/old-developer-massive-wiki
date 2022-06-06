@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Massive Wiki Builder v1.5.0 - https://github.com/peterkaminski/massivewikibuilder
+# Massive Wiki Builder v1.7.0 - https://github.com/peterkaminski/massivewikibuilder
 
 # set up logging
 import logging, os
@@ -21,8 +21,6 @@ import yaml
 import jinja2
 
 from markdown import Markdown
-#from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
-# mwb wikilink testing
 sys.path.append('./mwb_wikilink_plus/')
 from mwb_wikilink_plus.mwb_wikilink_plus import WikiLinkPlusExtension
 
@@ -38,17 +36,17 @@ def init_argparse():
 wikifiles = {}
 
 def mwb_build_wikilink(path, base, end, url_whitespace, url_case):
-#    print("DEBUG 1 mwb_build_wikilink: path: ", path)
+    logging.debug("1 mwb_build_wikilink: path: ", path)
     path_name = Path(path).name
     wikilink = Path(path_name).as_posix()  # use path_name if no wikipath
     if path_name in wikifiles.keys():
         wikipath = wikifiles[path_name]
-#        print("DEBUG 2 mwb_build_wikilink: wikipath: ", wikipath)
+        logging.debug("2 mwb_build_wikilink: wikipath: ", wikipath)
         if wikipath.endswith('.md'):
             wikilink = Path(wikipath).with_suffix('.html').as_posix()
         else:
             wikilink = Path(wikipath).as_posix()
-#    print("DEBUG 3 mwb_build_wikilink return: ", wikilink)
+    logging.debug("3 mwb_build_wikilink return: ", wikilink)
     return wikilink
 
 # set up markdown
@@ -57,7 +55,7 @@ markdown_configs = {
         'base_url': '',
         'end_url': '.html',
         'url_whitespace': '_',
-        'build_url': mwb_build_wikilink, # currently incomplete
+        'build_url': mwb_build_wikilink,
     },
 }
 markdown_extensions = [
@@ -79,9 +77,9 @@ def load_config(path):
         return yaml.safe_load(infile)
 
 # scrub wiki path to handle ' ', '_', '?', and '#' characters in wiki page names
+# change ' ', ?', and '#' to '_', because they're inconvenient in URLs
 def scrub_path(filepath):
-    scrubbed_path = re.sub(r'([ _?\#]+)', '_', filepath)
-    return scrubbed_path
+    return re.sub(r'([ _?\#]+)', '_', filepath)
 
 # take a path object pointing to a Markdown file
 # return Markdown (as string) and YAML front matter (as dict)
@@ -157,17 +155,20 @@ def main():
                 if file in ['netlify.toml']:
                     continue
                 clean_name = scrub_path(file)
-                if file.endswith('.md'):
-                    wikifiles[Path(file[:-3]).name] = f"{path}/{clean_name}"
+                if '.md' == Path(file).suffix.lower():
+                    wikifiles[Path(file).stem] = f"{path}/{clean_name}"
                 else:
                     wikifiles[Path(file).name] = f"{path}/{clean_name}"
-#        print("DEBUG: wikifiles: ", wikifiles)
+        logging.debug("wikifiles: ", wikifiles)
         # copy wiki to output; render .md files to HTML
         logging.debug("copy wiki to output; render .md files to HTML")
         all_pages = []
         page = j.get_template('page.html')
         build_time = datetime.datetime.now(datetime.timezone.utc).strftime("%A, %B %d, %Y at %H:%M UTC")
-        sidebar_body = sidebar_convert_markdown(Path(dir_wiki) / config['sidebar'])
+        if 'sidebar' in config:
+            sidebar_body = sidebar_convert_markdown(Path(dir_wiki) / config['sidebar'])
+        else:
+            sidebar_body = ''
         for root, dirs, files in os.walk(dir_wiki):
             dirs[:] = [d for d in dirs if not d.startswith('.')]
             files = [f for f in files if not f.startswith('.')]
@@ -177,8 +178,8 @@ def main():
                 os.mkdir(Path(dir_output) / path)
             logging.debug(f"processing {files}")
             for file in files:
-#                print("DEBUG main: processing: file:  ",file)
-                if file == config['sidebar']:
+                logging.debug("main: processing: file:  ",file)
+                if 'sidebar' in config and file == config['sidebar']:
                     continue
                 clean_name = scrub_path(file)
                 if file.lower().endswith('.md'):

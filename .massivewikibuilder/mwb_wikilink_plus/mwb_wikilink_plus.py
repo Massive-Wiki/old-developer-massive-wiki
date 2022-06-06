@@ -5,12 +5,13 @@ Massive Wiki Builder WikiLinkPlus Extension for Python-Markdown
 
 Converts [[WikiLinks]] to relative links.
 Based on <https://github.com/neurobin/mdx_wikilink_plus>
-See <https://github.com/neurobin/mdx_wikilink_plus> for prior code documentation.
-
+See <https://github.com/neurobin/mdx_wikilink_plus> for mdx_wikilink_plus documentation.
 Copyright Md. Jahidul Hamid <jahidulhamid@yahoo.com>
-
 License: [BSD](http://www.opensource.org/licenses/bsd-license.php)
 
+Modifications to create mwb_wikilink_plus.py
+Copyright William L. Anderson <band@acm.org> and Peter Kaminski <kaminski@istori.com>
+License: [BSD](http://www.opensource.org/licenses/bsd-license.php)
 '''
 
 from __future__ import absolute_import
@@ -133,7 +134,6 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
     def handleMatch(self, m):
         """Return an a element if regex matched"""
         d = m.groupdict()
-#        print("handleMatch m.groupdict: ", d)
         tl = d.get('target')
         label = d.get('label')
         if label is None:
@@ -141,7 +141,6 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         if tl:
             base_url, end_url, url_whitespace, url_case, label_case, html_class, image_class = self._getMeta()
             clean_path = tl
-#            print("handleMatch clean_path: ", clean_path)
             isimage = False
             imagesuffixes = ['.png', '.jpg', '.jpeg', '.gif', '.svg']
             for suffix in imagesuffixes:
