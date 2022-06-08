@@ -1,10 +1,24 @@
 #!/usr/bin/env python
+'''
+recentls.py: list the most recently modified wikipage file in a Massive Wiki
 
+Usage: ./recentls.py -w 'path to massive wiki folder'
+
+To print a log what's happening during the build, set the `LOGLEVEL` environment variable to `DEBUG`.
+
+On the command line:
+
+LOGLEVEL=DEBUG ./recentls.py -w 'path to massive wiki folder'
+
+or:
+
+export LOGLEVEL=DEBUG
+./recentls.py -w 'path to massive wiki folder'
+
+'''
 import argparse
 import os
 import re
-
-from pathlib import Path
 
 # set up logging
 import logging
@@ -19,10 +33,9 @@ def init_argparse():
 def main():
     argparser = init_argparse();
     args = argparser.parse_args();
-#    print(f"args: {args}")
+    logging.debug("args: %s", f"args: {args}")
     
-    dir_wiki = Path(args.wiki).resolve().as_posix()
-    print(dir_wiki)
+    dir_wiki = args.wiki
     logging.info("wiki directory: %s", dir_wiki)
 
     wikifiles = []
@@ -43,7 +56,7 @@ def main():
                 wikifiles.append(wikipath)
 
     print(max(wikifiles, key=os.path.getctime))
-    print(min(wikifiles, key=os.path.getctime))
+#    print(min(wikifiles, key=os.path.getctime))
     
 if __name__ == "__main__":
     exit(main())
