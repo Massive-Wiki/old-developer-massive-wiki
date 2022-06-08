@@ -6,6 +6,10 @@ import re
 
 from pathlib import Path
 
+# set up logging
+import logging
+logging.basicConfig(level=os.environ.get('LOGLEVEL', 'WARNING').upper())
+
 # set up argparse
 def init_argparse():
     parser = argparse.ArgumentParser(description='find recently changed files in wiki.')
@@ -19,6 +23,7 @@ def main():
     
     dir_wiki = Path(args.wiki).resolve().as_posix()
     print(dir_wiki)
+    logging.info("wiki directory: %s", dir_wiki)
 
     wikifiles = []
     
@@ -26,14 +31,14 @@ def main():
         dirs[:]=[d for d in dirs if not d.startswith('.')]
         files=[f for f in files if not f.startswith('.')]
         readable_path = root[len(dir_wiki):]
-        print("absolute_path: ", f"{dir_wiki}{readable_path}")
+        logging.debug("absolute wiki directory path: %s", f"{dir_wiki}{readable_path}")
         path = re.sub(r'([ _]+_)', '_', readable_path)
         for file in files:
             if file == 'netlify.toml' or file == 'YAML.md' or file == 'README.md':
                 continue
             clean_name = re.sub(r'([ _]+_)', '_', file)
             wikipath = f"{dir_wiki}{path}/{clean_name}"
-#            print( {'filename':f"{file}", 'wikipath':wikipath} )
+            logging.debug("filename: %s  | wikipath: %s: ", f"{file}", wikipath)
             if file.lower().endswith('.md') and os.path.exists(wikipath):
                 wikifiles.append(wikipath)
 
