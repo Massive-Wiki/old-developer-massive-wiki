@@ -26,11 +26,11 @@ def main():
         dirs[:]=[d for d in dirs if not d.startswith('.')]
         files=[f for f in files if not f.startswith('.')]
         readable_path = root[len(dir_wiki):]
-        path = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', readable_path)
+        path = re.sub(r'([ _]+_)', '_', readable_path)
         for file in files:
             if file == 'netlify.toml':
                 continue
-            clean_name = re.sub(r'([ ]+_)|(_[ ]+)|([ ]+)', '_', file)
+            clean_name = re.sub(r'([ _]+_)', '_', file)
 #            print( {'filename':f"/{file}", 'wikipath':f"{path}/{clean_name}"})
             wikifiles[file] = f"{path}/{clean_name}"
 #            if file.lower().endswith('.md'):
