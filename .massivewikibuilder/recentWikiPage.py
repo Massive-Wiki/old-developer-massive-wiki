@@ -1,19 +1,19 @@
 #!/usr/bin/env python
 '''
-recentls.py: list the most recently modified wikipage file in a Massive Wiki
+recentWikiPage.py: list the most recently modified wikipage file in a Massive Wiki
 
-Usage: ./recentls.py -w 'path to massive wiki folder'
+Usage: ./recentWikiPage.py -w 'path to massive wiki folder'
 
 To print a log of some steps in program execution, set the `LOGLEVEL` environment variable to `DEBUG`.
 
 On the command line:
 
-LOGLEVEL=DEBUG ./recentls.py -w 'path to massive wiki folder'
+LOGLEVEL=DEBUG ./recentWikiPage.py -w 'path to massive wiki folder'
 
 or:
 
 export LOGLEVEL=DEBUG
-./recentls.py -w 'path to massive wiki folder'
+./recentWikiPage.py -w 'path to massive wiki folder'
 
 '''
 import argparse
