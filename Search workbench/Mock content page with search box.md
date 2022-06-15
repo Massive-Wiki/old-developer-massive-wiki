@@ -1,6 +1,6 @@
 # Mock content page with search box
 
-Search: ( [[foo bar baz qux]] ) _pretend this is right-justified_
+**Search: ( [[foo bar baz qux]] )** _pretend this is right-justified_
 
 Duis lacinia augue leo, eu malesuada leo malesuada eget. Aenean convallis sit amet ante in scelerisque. Aenean sed dui libero. Nunc et accumsan lorem. Quisque et eleifend ex. Proin ac mauris vitae augue vulputate pharetra. Cras nec interdum lorem. Ut semper elementum enim, ut aliquet tortor interdum ut. Nam tincidunt, nisl at finibus efficitur, risus nunc sodales ipsum, tempus pharetra lorem tortor sed eros.
 
