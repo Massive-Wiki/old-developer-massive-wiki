@@ -194,6 +194,7 @@ def main():
                     # render and output HTML
                     markdown.reset() # needed for footnotes extension
                     markdown_body = markdown.convert(markdown_text)
+                    # SEARCH TODO: add markdown_body to search index right here (or so)
                     html = page.render(
                         build_time=build_time,
                         wiki_title=config['wiki_title'],
@@ -211,6 +212,18 @@ def main():
                 # copy all original files
                 logging.debug("copy all original files")
                 shutil.copy(Path(root) / file, Path(dir_output) / path / clean_name)
+
+        # write out search index
+
+        # SEARCH TODO below:
+
+        # ref: https://lunrjs.com/guides/index_prebuilding.html
+        # do the equivalent of this: `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /elasticlunr-index-1655917680000.json`
+        # (probably with `subprocess.run(['node', ...])`)
+
+        # and then the search javascript will do this:
+        # - (load `/elasticlunr-index-1655917680000.json` into `data` variable, with e.g. <https://stackoverflow.com/a/18060638>)
+        # - `var idx = lunr.Index.load(JSON.parse(data))`
 
         # copy README.html to index.html if no index.html
         logging.debug("copy README.html to index.html if no index.html")
