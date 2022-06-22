@@ -5,7 +5,7 @@
 - [x] create Massive Wiki roadmap
 - [ ] create fractal/graph db of MW projects
 - [x] try Pijul
-- [ ] try Syncthing
+- [x] try Syncthing
 - [ ] improve Massive Wiki Builder
 - [ ] create [[Opal]]
 - [ ] create [[Zirconia]]
@@ -23,5 +23,5 @@
 - [ ] backlinks
 - [ ] more cleanup of mwb_wikilinks_plus
 - [ ] <https://github.com/peterkaminski/massivewikibuilder/issues>
-- [ ] rewrite or otherwise improve mdx_wikilinks_plus
+- [x] rewrite or otherwise improve mdx_wikilinks_plus
 - [x] sidebar

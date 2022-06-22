@@ -8,3 +8,7 @@
 
 - <https://github.github.com/gfm/>
 - they have well-defined [[wiki links]]: <https://github.github.com/gfm/#links>
+
+## Details (Perhaps Obscure)
+
+- [Setext vs atx Header Styles in Markdown \| Brianary](http://webcoder.info/markdown-headers.html)
