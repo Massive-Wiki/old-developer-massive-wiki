@@ -22,13 +22,12 @@ def init_argparse():
 def main():
     argparser = init_argparse();
     args = argparser.parse_args();
-    print(f"args: {args}")
+    logging.info(f"args: {args}")
     
     dir_wiki = str(args.wiki)
     logging.info("wiki folder %s: ", dir_wiki)
 
-#    mdfiles = [f for f in glob.glob(f"{dir_wiki}/**/*.md", recursive=True)]
-    mdfiles = ['/Users/band/documents/myWikis/conversations/URIs URLs and URNs.md', '/Users/band/documents/myWikis/conversations/Wikis and knowledge structures.md', '/Users/band/documents/myWikis/conversations/Sandbox.md']
+    mdfiles = [f for f in glob.glob(f"{dir_wiki}/**/*.md", recursive=True)]
 
     idx_data=[]
     for i, f in enumerate(mdfiles):
@@ -40,7 +39,7 @@ def main():
     with open(fname,"a") as file:
         file.write("\n")
         for datum in enumerate(idx_data):
-            file.write(f"var doc{datum[1].get('id')} = {{{json.dumps(datum[1])}}}\nindex.addDoc(doc{datum[1].get('id')});\n")
+            file.write(f"var doc{datum[1].get('id')} = {datum[1]}\nindex.addDoc(doc{datum[1].get('id')});\n")
 
 if __name__ == "__main__":
     exit(main())
