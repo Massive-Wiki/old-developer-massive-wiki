@@ -1,10 +1,41 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>MWB Search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js"></script>
+    <script src="scripts/wiki_index.js"></script>
+    <style>
+      ul#resList{list-style-position: inside}
+      li.item{list-style:none; padding:5px;}
+    </style>
   </head>
   <body>
     <p><a href="/">[Home]</a>
-    <p>Hello, world.</p>
-    <p>A search bar, button, and results will go on this page.</p>
+      <br><br><br>
+    <input type="text" placeholder="Type" id="inputID">
+    <button type="button" onclick="doSearch();">Search</button>
+    <script>
+      function doSearch() {
+	  let searchString=document.getElementById("inputID").value;
+	  var ul = document.createElement('ul');
+	  ul.setAttribute('id','resList');
+	  const searchResultList = [];
+	  for(let res of index.search(searchString)) {
+	    searchResultList.push(res['doc']['title']);
+	  }
+//	  console.log("searchResultList: ", searchResultList);
+	  document.getElementById('renderList').appendChild(ul);
+          searchResultList.forEach(renderResultList);
+          function renderResultList(element, index, arr) {
+            var li = document.createElement('li');
+            li.setAttribute('class','item');
+            ul.appendChild(li);
+            li.innerHTML=li.innerHTML + element;
+          }
+      }
+    </script>
+
+<div id="renderList"></div>
+
   </body>
 </html>
