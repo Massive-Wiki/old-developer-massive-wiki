@@ -55,7 +55,31 @@ In `netlify.toml`, do:
   LOGLEVEL = "DEBUG"
 ```
 
+## Lunr
 
+To build an index for the [Lunr](https://lunrjs.com/) search engine, include the `--lunr` flag:
+
+```shell
+./mwb.py -c mwb.yaml -w .. -o output -t massive-wiki-themes/alto --lunr
+```
+
+Lunr is a JavaScript library, so Node.js (`node`) and the Lunr library must be installed.
+
+To install Node, see <https://nodejs.org/en/download/>. On Mac, you may want to do `brew install node`.
+
+To install Lunr, in `.massivewikibuilder/` do:
+
+```shell
+npm ci # reads package.json and package-lock.json
+```
+
+When MWB runs, the Lunr index is generated at the root of the output directory, named like this (numbers change every microsecond): `lunr-index-1656193058.85086.json`.
+
+In generated web pages, assuming a variable named `data` contains the contents of the `lunr-index-1656193058.85086.json` file, loading the index is done like this:
+
+```
+var idx = lunr.Index.load(JSON.parse(data))
+```
 
 ## Deploy (Netlify)
 
@@ -71,8 +95,6 @@ For Netlify deploys, you can include a `netlify.toml` file like this at the root
 [build.environment]
   PYTHON_VERSION = "3.8"
 ```
-
-
 
 ## Develop
 
