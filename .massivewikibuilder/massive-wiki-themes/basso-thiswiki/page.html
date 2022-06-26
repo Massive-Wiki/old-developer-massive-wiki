@@ -29,6 +29,9 @@
     </section>
     {% include '_footer.html' %}
     <script>{% include '_javascript.html' %}</script>
+    {% if lunr_index_sitepath != '' %}
+    <script src="{{lunr_index_sitepath}}"></script>
+    {% endif %}
     <script src="https://hypothes.is/embed.js" async></script>
   </body>
 </html>

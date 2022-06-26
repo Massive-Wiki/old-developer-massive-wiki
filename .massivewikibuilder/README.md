@@ -73,13 +73,25 @@ To install Lunr, in `.massivewikibuilder/` do:
 npm ci # reads package.json and package-lock.json
 ```
 
-When MWB runs, the Lunr index is generated at the root of the output directory, named like this (numbers change every microsecond): `lunr-index-1656193058.85086.json`.
+When MWB runs, the Lunr index is generated at the root of the output directory, named like this (numbers change every microsecond): `lunr-index-1656193058.85086.js`.
 
-In generated web pages, assuming a variable named `data` contains the contents of the `lunr-index-1656193058.85086.json` file, loading the index is done like this:
+A template variable, `lunr_index_sitepath`, containing the website path to the generated index JavaScript file, is passed to templates as the pages are built.
+
+In templates, loading the index is done like this:
 
 ```
-var idx = lunr.Index.load(JSON.parse(data))
+{% if lunr_index_sitepath != '' %}
+<script src="{{lunr_index_sitepath}}"></script>
+{% endif %}
 ```
+
+which results in this on the generated webpage:
+
+```html
+<script src="/lunr-index-1656193058.85086.js"></script>
+```
+
+which results in the contents of the index being in a variable called `lunr_index`.
 
 ## Deploy (Netlify)
 
