@@ -11,7 +11,9 @@ import argparse
 import json
 import re
 import shutil
+import subprocess
 import sys
+import time
 import traceback
 
 import datetime
@@ -31,6 +33,7 @@ def init_argparse():
     parser.add_argument('--output', '-o', required=True, help='directory for output')
     parser.add_argument('--templates', '-t', required=True, help='directory for HTML templates')
     parser.add_argument('--wiki', '-w', required=True, help='directory containing wiki files (Markdown + other)')
+    parser.add_argument('--lunr', action='store_true', help='include this to create lunr index (requires npm and lunr to be installed, read docs)')
     return parser
 
 wikifiles = {}
@@ -213,16 +216,18 @@ def main():
                 logging.debug("copy all original files")
                 shutil.copy(Path(root) / file, Path(dir_output) / path / clean_name)
 
-        # write out search index
-
-        # SEARCH TODO below:
-
-        # ref: https://lunrjs.com/guides/index_prebuilding.html
-        # do the equivalent of this: `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /elasticlunr-index-1655917680000.json`
-        # (probably with `subprocess.run(['node', ...])`)
+        # build Lunr search index if --lunr
+        if (args.lunr):
+            logging.debug("building lunr index")
+            # ref: https://lunrjs.com/guides/index_prebuilding.html
+            # the following is roughly equivalent to `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /lunr-index-1656192217.474129.json`
+            fake_pages = [{ "id": "1","title": "Foo", "body": "Bar" }] # TODO - use real page data
+            fake_pages_bytes = json.dumps(fake_pages).encode('utf-8') # NOTE: build-index.js requires text as input - convert dict to string (then do encoding to bytes either here or set `encoding` in subprocess.run())
+            with open(Path(dir_output) / f"lunr-index-{time.time()}.json", "w") as outfile:
+                p = subprocess.run(['node', 'build-index.js'], input=fake_pages_bytes, stdout=outfile)
 
         # and then the search javascript will do this:
-        # - (load `/elasticlunr-index-1655917680000.json` into `data` variable, with e.g. <https://stackoverflow.com/a/18060638>)
+        # - (load `/lunr-index-1656192217.474129.json` into `data` variable, with e.g. <https://stackoverflow.com/a/18060638>)
         # - `var idx = lunr.Index.load(JSON.parse(data))`
 
         # copy README.html to index.html if no index.html
