@@ -141,6 +141,15 @@ def main():
     # get a Jinja2 environment
     j = jinja2_environment(dir_templates)
 
+    # set up lunr_index_filename and lunr_index_sitepath
+    if (args.lunr):
+        lunr_index_filename = f"lunr-index-{time.time()}.js" # needed for next two variables
+        lunr_index_filepath = Path(dir_output) / lunr_index_filename # local filesystem
+        lunr_index_sitepath = '/'+lunr_index_filename # website
+    else:
+        # needed to feed to themes
+        lunr_index_sitepath = ''
+
     # render the wiki
     try:
         # remove existing output directory and recreate
@@ -206,7 +215,8 @@ def main():
                         license=config['license'],
                         title=file[:-3],
                         markdown_body=markdown_body,
-                        sidebar_body=sidebar_body
+                        sidebar_body=sidebar_body,
+                        lunr_index_sitepath=lunr_index_sitepath,
                     )
                     (Path(dir_output) / path / clean_name).with_suffix(".html").write_text(html)
 
@@ -218,17 +228,19 @@ def main():
 
         # build Lunr search index if --lunr
         if (args.lunr):
-            logging.debug("building lunr index")
+            logging.debug("building lunr index: ", lunr_index_filepath)
             # ref: https://lunrjs.com/guides/index_prebuilding.html
-            # the following is roughly equivalent to `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /lunr-index-1656192217.474129.json`
+            # the following is roughly equivalent to `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /lunr-index-1656192217.474129.js`, except it prepends "lunr_index="
             fake_pages = [{ "id": "1","title": "Foo", "body": "Bar" }] # TODO - use real page data
             fake_pages_bytes = json.dumps(fake_pages).encode('utf-8') # NOTE: build-index.js requires text as input - convert dict to string (then do encoding to bytes either here or set `encoding` in subprocess.run())
-            with open(Path(dir_output) / f"lunr-index-{time.time()}.json", "w") as outfile:
+            with open(lunr_index_filepath, "w") as outfile:
+                print("lunr_index=", end="", file=outfile)
+                outfile.seek(0, 2) # seek to EOF
                 p = subprocess.run(['node', 'build-index.js'], input=fake_pages_bytes, stdout=outfile)
 
         # and then the search javascript will do this:
-        # - (load `/lunr-index-1656192217.474129.json` into `data` variable, with e.g. <https://stackoverflow.com/a/18060638>)
-        # - `var idx = lunr.Index.load(JSON.parse(data))`
+        #   <script src="/lunr-index-1656192217.474129.js"></script>
+        # and the variable `lunr_index` will contain the index
 
         # copy README.html to index.html if no index.html
         logging.debug("copy README.html to index.html if no index.html")
@@ -249,7 +261,8 @@ def main():
             wiki_title=config['wiki_title'],
             author=config['author'],
             repo=config['repo'],
-            license=config['license']
+            license=config['license'],
+            lunr_index_sitepath=lunr_index_sitepath,
         )
         (Path(dir_output) / "all-pages.html").write_text(html)
 
