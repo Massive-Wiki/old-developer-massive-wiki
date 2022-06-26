@@ -15,22 +15,27 @@
     <input type="text" placeholder="Type" id="inputID">
     <button type="button" onclick="doSearch();">Search</button>
     <script>
-      function doSearch() {
+          function doSearch() {
 	  let searchString=document.getElementById("inputID").value;
 	  var ul = document.createElement('ul');
 	  ul.setAttribute('id','resList');
 	  const searchResultList = [];
 	  for(let res of index.search(searchString)) {
-	    searchResultList.push(res['doc']['title']);
+	    let entry = { "title": res['doc']['title'], "link": res['doc']['link'] }
+	    searchResultList.push(entry);
 	  }
 //	  console.log("searchResultList: ", searchResultList);
 	  document.getElementById('renderList').appendChild(ul);
           searchResultList.forEach(renderResultList);
-          function renderResultList(element, index, arr) {
+	  function renderResultList(element, index, arr) {
+            var anchor = document.createElement('a');
+            anchor.append(document.createTextNode(`${element['title']}`));
+            anchor.setAttribute('class', 'wikilink');
+            anchor.setAttribute('href',`${element['link']}`);
             var li = document.createElement('li');
             li.setAttribute('class','item');
-            ul.appendChild(li);
-            li.innerHTML=li.innerHTML + element;
+            li.append(anchor);
+            ul.append(li);
           }
       }
     </script>
