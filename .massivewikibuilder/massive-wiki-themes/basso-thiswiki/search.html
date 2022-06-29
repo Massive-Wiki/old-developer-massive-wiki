@@ -2,10 +2,11 @@
 <html>
   <head>
     <title>MWB Search</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
     {% if lunr_index_sitepath != '' %}
     <script src="{{lunr_index_sitepath}}"></script>
     {% endif %}
+    <script>var index = lunr.Index.load(lunr_index)</script>
     <style>
       ul#resList{list-style-position: inside}
       li.item{list-style:none; padding:5px;}
@@ -22,9 +23,10 @@
 	  var ul = document.createElement('ul');
 	  ul.setAttribute('id','resList');
 	  const searchResultList = [];
-	  for(let res of lunr_index.search(searchString)) {
-	    let entry = { "title": res['doc']['title'], "link": res['doc']['link'] }
-	    searchResultList.push(entry);
+	  for(let res of index.search(searchString)) {
+            console.log(res, res.matchData) // for debugging; matchData is empty :-(
+//	    let entry = { "title": res['doc']['title'], "link": res['doc']['link'] }
+//	    searchResultList.push(entry);
 	  }
 //	  console.log("searchResultList: ", searchResultList);
 	  document.getElementById('renderList').appendChild(ul);
