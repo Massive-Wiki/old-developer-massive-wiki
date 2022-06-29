@@ -228,7 +228,7 @@ def main():
 
         # build Lunr search index if --lunr
         if (args.lunr):
-            logging.debug("building lunr index: ", lunr_index_filepath)
+            logging.debug("building lunr index: %s", lunr_index_filepath)
             # ref: https://lunrjs.com/guides/index_prebuilding.html
             # the following is roughly equivalent to `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /lunr-index-1656192217.474129.js`, except it prepends "lunr_index="
             fake_pages = [{ "id": "1","title": "Foo", "body": "Bar" }] # TODO - use real page data
