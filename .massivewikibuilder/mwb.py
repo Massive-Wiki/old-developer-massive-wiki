@@ -242,7 +242,7 @@ def main():
 
         # build Lunr search index if --lunr
         if (args.lunr):
-            logging.debug("building lunr index: ", lunr_index_filepath)
+            logging.debug("building lunr index: %s", lunr_index_filepath)
             # ref: https://lunrjs.com/guides/index_prebuilding.html
             pages_index = index_wiki(dir_wiki)
             pages_index_bytes = json.dumps(pages_index).encode('utf-8') # NOTE: build-index.js requires text as input - convert dict to string (then do encoding to bytes either here or set `encoding` in subprocess.run())
