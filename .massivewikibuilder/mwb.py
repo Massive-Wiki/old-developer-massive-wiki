@@ -8,6 +8,7 @@ logging.basicConfig(level=os.environ.get('LOGLEVEL', 'WARNING').upper())
 
 # python libraries
 import argparse
+import glob
 import json
 import re
 import shutil
@@ -83,6 +84,20 @@ def load_config(path):
 # change ' ', ?', and '#' to '_', because they're inconvenient in URLs
 def scrub_path(filepath):
     return re.sub(r'([ _?\#]+)', '_', filepath)
+
+# index_wiki
+def index_wiki(dir_wiki):
+    
+    logging.debug("index_wiki(): wiki folder %s: ", dir_wiki)
+
+    mdfiles = [f for f in glob.glob(f"{dir_wiki}/**/*.md", recursive=True)] # TODO: consider adding .txt
+
+    idx_data=[]
+    for i, f in enumerate(mdfiles):
+        idx_data.append({"id": i, "link": "/"+scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix()), "title": Path(f).stem, "body": Path(f).read_text()})
+
+    logging.debug("index_wiki(): index length %s: ",len(idx_data))
+    return idx_data
 
 # take a path object pointing to a Markdown file
 # return Markdown (as string) and YAML front matter (as dict)
@@ -206,7 +221,6 @@ def main():
                     # render and output HTML
                     markdown.reset() # needed for footnotes extension
                     markdown_body = markdown.convert(markdown_text)
-                    # SEARCH TODO: add markdown_body to search index right here (or so)
                     html = page.render(
                         build_time=build_time,
                         wiki_title=config['wiki_title'],
@@ -230,17 +244,28 @@ def main():
         if (args.lunr):
             logging.debug("building lunr index: ", lunr_index_filepath)
             # ref: https://lunrjs.com/guides/index_prebuilding.html
-            # the following is roughly equivalent to `echo '[{ "id": "1","title": "Foo", "body": "Bar" }]' | node build-index.js > /lunr-index-1656192217.474129.js`, except it prepends "lunr_index="
-            fake_pages = [{ "id": "1","title": "Foo", "body": "Bar" }] # TODO - use real page data
-            fake_pages_bytes = json.dumps(fake_pages).encode('utf-8') # NOTE: build-index.js requires text as input - convert dict to string (then do encoding to bytes either here or set `encoding` in subprocess.run())
+            pages_index = index_wiki(dir_wiki)
+            pages_index_bytes = json.dumps(pages_index).encode('utf-8') # NOTE: build-index.js requires text as input - convert dict to string (then do encoding to bytes either here or set `encoding` in subprocess.run())
             with open(lunr_index_filepath, "w") as outfile:
                 print("lunr_index=", end="", file=outfile)
                 outfile.seek(0, 2) # seek to EOF
-                p = subprocess.run(['node', 'build-index.js'], input=fake_pages_bytes, stdout=outfile)
+                p = subprocess.run(['node', 'build-index.js'], input=pages_index_bytes, stdout=outfile)
 
         # and then the search javascript will do this:
         #   <script src="/lunr-index-1656192217.474129.js"></script>
         # and the variable `lunr_index` will contain the index
+
+        # temporary handling of search.html - TODO, do this better :-)
+        search_page = j.get_template('search.html')
+        html = search_page.render(
+            build_time=build_time,
+            wiki_title=config['wiki_title'],
+            author=config['author'],
+            repo=config['repo'],
+            license=config['license'],
+            lunr_index_sitepath=lunr_index_sitepath,
+        )
+        (Path(dir_output) / "search.html").write_text(html)
 
         # copy README.html to index.html if no index.html
         logging.debug("copy README.html to index.html if no index.html")
