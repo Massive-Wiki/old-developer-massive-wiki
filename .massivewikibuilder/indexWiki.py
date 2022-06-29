@@ -33,21 +33,11 @@ def main():
 
     idx_data=[]
     for i, f in enumerate(mdfiles):
-#        idx_data.append({"id": i, "title": Path(f).relative_to(dir_wiki).with_suffix('').as_posix(), "body": Path(f).read_text()})
         idx_data.append({"id": i, "link": "/"+scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix()), "title": Path(f).stem, "body": Path(f).read_text()})
 
     logging.info("index length %s: ",len(idx_data))
 
-    # TODO: add wikilink to index: idx.append({"id": i, "link": scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix()), "title": Path(f).stem, "body": Path(f).read_text()})
-
     idx_fpath= f"{dir_wiki}/.massivewikibuilder/massive-wiki-themes/basso-thiswiki/mwb-static/scripts"
-
-    # TODO: (re)create a new javascript index file with every MWB build
-    # shutil.os.chdir(idx_path)
-    # shutil.copy('wiki_index.js, 'wiki_index_last.js')
-    # shutil.os.remove('wiki_index.js')
-    # shutil.copy('wiki_index_head.js', 'wiki_index.js')
-    # shutil.so.chdir(dir_wiki)
 
     fname = f"{idx_fpath}/wiki_index.js"
     with open(fname,"a") as file:
