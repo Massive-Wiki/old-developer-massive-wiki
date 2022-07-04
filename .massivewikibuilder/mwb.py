@@ -94,7 +94,7 @@ def index_wiki(dir_wiki):
 
     idx_data=[]
     for i, f in enumerate(mdfiles):
-        idx_data.append({"id": i, "link": "/"+scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix()), "title": Path(f).stem, "body": Path(f).read_text()})
+        idx_data.append({"link": "/"+scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix()), "title": Path(f).stem, "body": Path(f).read_text()})
 
     logging.debug("index_wiki(): index length %s: ",len(idx_data))
     return idx_data
