@@ -20,7 +20,6 @@ def init_argparse():
 def scrub_path(filepath):
     return re.sub(r'([ _?\#]+)', '_', filepath)
 
-
 def main():
     argparser = init_argparse();
     args = argparser.parse_args();
