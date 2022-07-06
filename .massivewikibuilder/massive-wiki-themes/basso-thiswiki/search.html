@@ -1,7 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>MWB Search</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search - {{wiki_title}}</title>
+    <link rel="stylesheet" href="/mwb-static/css/mystyles.css">
+    <link rel="stylesheet" href="/mwb-static/css/markdown.css">
+    <link rel="stylesheet" href="/mwb-static/css/sidebar.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
     {% if lunr_index_sitepath != '' %}
     <script src="{{lunr_index_sitepath}}"></script>
@@ -11,23 +17,31 @@
     {% endif %}
     <script>var index = lunr.Index.load(lunr_index)</script>
     <style>
-      ul#resList{list-style-position: inside}
+      ul#resList{list-style-position: inside;margin-left:3em;}
       li.item{list-style:none; padding:5px;}
+      div#renderList{margin-top:1.5em;}
     </style>
   </head>
-  <body>
-    <p><a href="/">[Home]</a>
-      <br><br><br>
-    <input type="text" placeholder="Type" id="inputID">
-    <button type="button" onclick="doSearch();">Search</button>
+  <body class="has-navbar-fixed-top">
+    {% include '_navbar.html' %}
+    <section class="section">
+      <div class="container">
+	<input type="text" placeholder="type search words" id="inputID">
+	<button type="button" onclick="doSearch();">Search</button>
+	<div id="renderList"></div>
+      </div>
+    </section>
+    {% include '_footer.html' %}
+    <script>{% include '_javascript.html' %}</script>
     <script>
-          function doSearch() {
+      function doSearch() {
 	  let searchString=document.getElementById("inputID").value;
 	  var ul = document.createElement('ul');
 	  ul.setAttribute('id','resList');
 	  const searchResultList = index.search(searchString).map((item) => {
 	      return lunr_posts.find((post) => item.ref === post.link)
 	  })
+	  <!-- TODO: delete renderList children -->
 	  document.getElementById('renderList').appendChild(ul);
           searchResultList.forEach(renderResultList);
 	  function renderResultList(element, index, arr) {
@@ -42,8 +56,5 @@
           }
       }
     </script>
-
-<div id="renderList"></div>
-
   </body>
 </html>
