@@ -93,11 +93,15 @@ def index_wiki(dir_wiki):
     mdfiles = [f for f in glob.glob(f"{dir_wiki}/**/*.md", recursive=True)] # TODO: consider adding .txt
 
     idx_data=[]
+    posts=[]
     for i, f in enumerate(mdfiles):
-        idx_data.append({"link": "/"+scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix()), "title": Path(f).stem, "body": Path(f).read_text()})
+        link = "/"+scrub_path(Path(f).relative_to(dir_wiki).with_suffix('.html').as_posix())
+        title = Path(f).stem
+        idx_data.append({"link":link, "title":title, "body": Path(f).read_text()})
+        posts.append({"link":link, "title":title})
 
     logging.debug("index_wiki(): index length %s: ",len(idx_data))
-    return idx_data
+    return idx_data, posts
 
 # take a path object pointing to a Markdown file
 # return Markdown (as string) and YAML front matter (as dict)
@@ -158,12 +162,17 @@ def main():
 
     # set up lunr_index_filename and lunr_index_sitepath
     if (args.lunr):
-        lunr_index_filename = f"lunr-index-{time.time()}.js" # needed for next two variables
+        timestamp_thisrun = time.time()
+        lunr_index_filename = f"lunr-index-{timestamp_thisrun}.js" # needed for next two variables
         lunr_index_filepath = Path(dir_output) / lunr_index_filename # local filesystem
         lunr_index_sitepath = '/'+lunr_index_filename # website
+        lunr_posts_filename = f"lunr-posts-{timestamp_thisrun}.js" # needed for next two variables
+        lunr_posts_filepath = Path(dir_output) / lunr_posts_filename # local filesystem
+        lunr_posts_sitepath = '/'+lunr_posts_filename # website
     else:
         # needed to feed to themes
         lunr_index_sitepath = ''
+        lunr_posts_sitepath = ''
 
     # render the wiki
     try:
@@ -231,6 +240,7 @@ def main():
                         markdown_body=markdown_body,
                         sidebar_body=sidebar_body,
                         lunr_index_sitepath=lunr_index_sitepath,
+                        lunr_posts_sitepath=lunr_posts_sitepath,
                     )
                     (Path(dir_output) / path / clean_name).with_suffix(".html").write_text(html)
 
@@ -244,16 +254,19 @@ def main():
         if (args.lunr):
             logging.debug("building lunr index: %s", lunr_index_filepath)
             # ref: https://lunrjs.com/guides/index_prebuilding.html
-            pages_index = index_wiki(dir_wiki)
+            pages_index, posts = index_wiki(dir_wiki)
             pages_index_bytes = json.dumps(pages_index).encode('utf-8') # NOTE: build-index.js requires text as input - convert dict to string (then do encoding to bytes either here or set `encoding` in subprocess.run())
             with open(lunr_index_filepath, "w") as outfile:
                 print("lunr_index=", end="", file=outfile)
                 outfile.seek(0, 2) # seek to EOF
                 p = subprocess.run(['node', 'build-index.js'], input=pages_index_bytes, stdout=outfile)
+            with open(lunr_posts_filepath, "w") as outfile:
+                print("lunr_posts=", posts, file=outfile)
 
         # and then the search javascript will do this:
         #   <script src="/lunr-index-1656192217.474129.js"></script>
-        # and the variable `lunr_index` will contain the index
+        #   <script src="/lunr-posts-1656192217.474129.js"></script>
+        # and the variables `lunr_index` will contain the index, `lunr_posts` will contain the links+titles
 
         # temporary handling of search.html - TODO, do this better :-)
         search_page = j.get_template('search.html')
@@ -264,6 +277,7 @@ def main():
             repo=config['repo'],
             license=config['license'],
             lunr_index_sitepath=lunr_index_sitepath,
+            lunr_posts_sitepath=lunr_posts_sitepath,
         )
         (Path(dir_output) / "search.html").write_text(html)
 
@@ -288,6 +302,7 @@ def main():
             repo=config['repo'],
             license=config['license'],
             lunr_index_sitepath=lunr_index_sitepath,
+            lunr_posts_sitepath=lunr_posts_sitepath,
         )
         (Path(dir_output) / "all-pages.html").write_text(html)
 

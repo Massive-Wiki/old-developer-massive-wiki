@@ -6,6 +6,9 @@
     {% if lunr_index_sitepath != '' %}
     <script src="{{lunr_index_sitepath}}"></script>
     {% endif %}
+    {% if lunr_posts_sitepath != '' %}
+    <script src="{{lunr_posts_sitepath}}"></script>
+    {% endif %}
     <script>var index = lunr.Index.load(lunr_index)</script>
     <style>
       ul#resList{list-style-position: inside}
@@ -22,18 +25,16 @@
 	  let searchString=document.getElementById("inputID").value;
 	  var ul = document.createElement('ul');
 	  ul.setAttribute('id','resList');
-	  const searchResultList = [];
-	  for(let res of index.search(searchString)) {
-	    let entry = { "link": res['ref'] }
-	    searchResultList.push(entry);
-	  }
+	  const searchResultList = index.search(searchString).map((item) => {
+	      return lunr_posts.find((post) => item.ref === post.link)
+	  })
 	  document.getElementById('renderList').appendChild(ul);
           searchResultList.forEach(renderResultList);
 	  function renderResultList(element, index, arr) {
             var anchor = document.createElement('a');
-            anchor.append(document.createTextNode("Search Result"));
+            anchor.append(document.createTextNode(`${element.title}`));
             anchor.setAttribute('class', 'wikilink');
-            anchor.setAttribute('href',`${element['link']}`);
+            anchor.setAttribute('href',`${element.link}`);
             var li = document.createElement('li');
             li.setAttribute('class','item');
             li.append(anchor);
