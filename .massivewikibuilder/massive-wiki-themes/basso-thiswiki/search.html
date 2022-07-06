@@ -26,10 +26,22 @@
     {% include '_navbar.html' %}
     <section class="section">
       <div class="container">
-	<input type="text" placeholder="type search words" id="inputID">
-	<button type="button" onclick="doSearch();" id="searchButton">Search</button>
-	<div id="renderList"></div>
       </div>
+	<div class="columns">
+	  <div class="sidebar column is-one-fifth">
+            <div class="content markdown-body" style="border-right:1px black solid; padding-right:1em;">
+              {{ sidebar_body }}
+            </div>
+	  </div>
+	  <div class="column">
+            <div class="content markdown-body">
+	      <h1>Search in {{wiki_title}}</h1>
+	      <input type="text" placeholder="type search words" id="inputID">
+	      <button type="button" onclick="doSearch();" id="searchButton">Search</button>
+	      <div id="renderList"></div>
+            </div>
+	  </div>
+	</div>
     </section>
     {% include '_footer.html' %}
     <script>{% include '_javascript.html' %}</script>
