@@ -27,7 +27,7 @@
     <section class="section">
       <div class="container">
 	<input type="text" placeholder="type search words" id="inputID">
-	<button type="button" onclick="doSearch();">Search</button>
+	<button type="button" onclick="doSearch();" id="searchButton">Search</button>
 	<div id="renderList"></div>
       </div>
     </section>
@@ -41,19 +41,38 @@
 	  const searchResultList = index.search(searchString).map((item) => {
 	      return lunr_posts.find((post) => item.ref === post.link)
 	  })
-	  <!-- TODO: delete renderList children -->
-	  document.getElementById('renderList').appendChild(ul);
+	  render_list = document.getElementById('renderList');
+	  removeAllChildNodes(render_list);
+	  render_list.appendChild(ul);
           searchResultList.forEach(renderResultList);
 	  function renderResultList(element, index, arr) {
             var anchor = document.createElement('a');
             anchor.append(document.createTextNode(`${element.title}`));
             anchor.setAttribute('class', 'wikilink');
             anchor.setAttribute('href',`${element.link}`);
+            anchor.setAttribute('target', '_blank');
             var li = document.createElement('li');
             li.setAttribute('class','item');
             li.append(anchor);
             ul.append(li);
           }
+      }
+    </script>
+    <script>
+      <!-- search on Enter in input textbox -->
+      var input_id = document.getElementById('inputID')
+      input_id.addEventListener('keypress', function(event) {
+	  if (event.key === "Enter") {
+	      event.preventDefault();
+	      document.getElementById("searchButton").click();
+	  }
+      });
+    </script>
+    <script>
+      function removeAllChildNodes(parent) {
+	  while (parent.firstChild) {
+              parent.removeChild(parent.firstChild);
+	  }
       }
     </script>
   </body>
