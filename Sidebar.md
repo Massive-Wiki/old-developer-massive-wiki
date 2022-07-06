@@ -1,10 +1,12 @@
 # Site Navigation
 
+[[README|Home]]  
+
 ## Plans
 
 [[Massive Wiki Roadmap]]  
 [[Pier2Pier]]  
-[[Notional Pier 2 Pier Screens]]
+[[Notional Pier 2 Pier Screens]]  
 
 ## For Testing
 
@@ -16,5 +18,6 @@
 
 ## General Navigation
 
+[Search](/search.html)  
 [All Pages](/all-pages.html)  
-_maybe someday, Random Article!_
+_maybe someday, Random Article!_  
