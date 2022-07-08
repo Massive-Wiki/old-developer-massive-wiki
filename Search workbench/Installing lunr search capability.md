@@ -2,7 +2,7 @@
 
 ### 2022-07-06/07 including lunr search
 
-Steps to incorporate lunr search from developer-massive-wiki to  another massive-wiki:
+Steps to incorporate lunr search from developer-massive-wiki to  another massive-wiki (running MWB v1.9.0):  
 0. merge README.md (done manually)  
 1. install node modules  
     1.1. install node  
