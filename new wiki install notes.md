@@ -33,6 +33,7 @@ test case. here is Bill's plan:
 - start Bill's test case above, with the RC branches
 - ...
 - when ready, merge RC branches to main and make new MWB and MWT releases
+- update starter wiki repo
 
 ### Today I Learned: Submodule update vs. init
 
