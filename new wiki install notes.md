@@ -13,7 +13,7 @@ Notes on attempting to start up a new MW using the starter-repo
 - `git submodule update --recursive --remote
 
 
-test case. here is my plan:
+test case. here is Bill's plan:
 
 1.  clone a starter wiki using the clone with remote submodules
 2.  add content; insure that MWB works
@@ -23,3 +23,27 @@ test case. here is my plan:
 6.  check in those changes
 7.  clone another starter wiki including submodules
 8.  add content; insure MWB works
+
+## Pete, 2022-07-26
+
+### Work steps
+
+- copy search code over from developer wiki into the MWB repo, create a [v2.0.0 release candidate branch and pull request](https://github.com/peterkaminski/massivewikibuilder/pull/38)
+- create a release candidate branch in the MWT repo, that is v1.9/v2.0 compliant
+- start Bill's test case above, with the RC branches
+- ...
+- when ready, merge RC branches to main and make new MWB and MWT releases
+
+### Today I Learned: Submodule update vs. init
+
+this is the "update" incantation:
+
+```shell
+git submodule update --recursive --remote
+```
+
+but if you're setting up submodules for the first time, you need to do this, to turn the submodules references into Git folders:
+
+```shell
+git submodule update --init --recursive
+```
