@@ -4,13 +4,38 @@ Notes on attempting to start up a new MW using the starter-repo
 
 2022-07-25:
 
-1. used the `git clone --recurse-submodules ...` command to establish the starter wiki vault
+- used the `git clone --recurse-submodules ...` command to establish the starter wiki vault
 	- n.b.: massivewikibuilder submodule is installed at v1.7.1
 	- need to upgrade it to v1.9.0 with `git submodule update --remote` command next (DONE)
-	- get your Python on
 
-- breakdown: themes and static directory
-- `git submodule update --recursive --remote
+2022-07-26:
+
+- get your Python on in the `.massivewikibuilder/massivewikibuilder` directory
+	-  testing MWB: breakdown: themes and static directory
+
+2022-07-27 (Bill)
+-  to get the submodules to follow the branches:
+	- configure the submodules with specific branch spec
+	  ``` shell
+cd wiki-root-directory
+git config -f .gitmodules submodule..massivewikibuilder/massivewikibuilder.branch pk-v2.0.0-rc-20220726
+git config -f .gitmodules submodule..massivewikibuilder/massive-wiki-themes.branch pk-updates-for-mwbv2-20220726
+git submodule update --remote --recursive
+# display current submodule info
+git config --file=.gitmodules -l
+```
+- now ready to test (TODO: local testing notes) MWB with updated branch submodules:  
+	- added a Sidebar and MWB succeeds using massive-wiki-themes/basso  
+		- Note: replace basso in `.massivewikibuilder/this-wiki-themes`  
+	- next step: test with search  
+		- step 1: `npm ci` in `massivewikibuilder` directory to install local `node_modules`  
+		- step 2: MWB build adding `--lunr` option to the MWB command  
+			- two breakdowns:  
+				- (1) no "Search" button on the navbar (?)  
+				- (2) able to use the "Search" link I included on the Sidebar; however, search not initiated on key-down (so some code did not get transferred to the MWB branch)
+				- needed to copy `_navbar.html_` and `search.html` from `developer-massive-wiki` basso theme to `myStarterWiki` `this-wiki-themes/basso`
+				- (do not have permissions to push to MWT branch; create a pull request?)
+
 
 
 test case. here is Bill's plan:
