@@ -54,7 +54,7 @@ test case. here is Bill's plan:
 ### Work steps
 
 - copy search code over from developer wiki into the MWB repo, create a [v2.0.0 release candidate branch and pull request](https://github.com/peterkaminski/massivewikibuilder/pull/38)
-- create a release candidate branch in the MWT repo, that is v1.9/v2.0 compliant
+- create a [release candidate branch and pull request in the MWT repo](https://github.com/peterkaminski/massive-wiki-themes/pull/5), that is v1.9/v2.0 compliant
 - start Bill's test case above, with the RC branches
 - ...
 - when ready, merge RC branches to main and make new MWB and MWT releases
