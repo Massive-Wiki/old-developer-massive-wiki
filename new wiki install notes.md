@@ -36,7 +36,7 @@ git config --file=.gitmodules -l
 				- needed to copy `_navbar.html_` and `search.html` from `developer-massive-wiki` basso theme to `myStarterWiki` `this-wiki-themes/basso`
 				- (do not have permissions to push to MWT branch; create a pull request?)
 
-
+- (Bill) has completed test plan steps 3, 4, 5, updating both MWB and MWT submodules; updates need to be checked into the MWT branch before steps 7 and 8 can be completed.
 
 test case. here is Bill's plan:
 
