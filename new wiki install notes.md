@@ -18,9 +18,8 @@ Notes on attempting to start up a new MW using the starter-repo
 	- configure the submodules with specific branch spec  
 
 ```shell
-cd wiki-root-directory  
-git config -f .gitmodules  
-git config -f submodule..massivewikibuilder/massivewikibuilder.branch pk-v2.0.0-rc-20220726  
+cd wiki-root-directory    
+git config -f .gitmodules submodule..massivewikibuilder/massivewikibuilder.branch pk-v2.0.0-rc-20220726  
 git config -f .gitmodules submodule..massivewikibuilder/massive-wiki-themes.branch pk-updates-for-mwbv2-20220726  
 git submodule update --remote --recursive  
 git config --file=.gitmodules -l  
