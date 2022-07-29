@@ -65,6 +65,7 @@ markdown_configs = {
 markdown_extensions = [
     'footnotes',
     'tables',
+    'fenced_code',
     WikiLinkPlusExtension(markdown_configs['mwb_wikilink_plus']),
 ]
 markdown = Markdown(output_format="html5", extensions=markdown_extensions)
