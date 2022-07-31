@@ -2,6 +2,7 @@
 
 ## Massive Wiki Projects
 
+- [ ] update Developer Wiki to MWB 2.0, with new directory structure
 - [x] create Massive Wiki roadmap
 - [ ] create fractal/graph db of MW projects
 - [x] try Pijul
