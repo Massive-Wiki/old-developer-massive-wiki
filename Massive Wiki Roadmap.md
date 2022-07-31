@@ -7,14 +7,19 @@
 - [x] try Pijul
 - [x] try Syncthing
 - [ ] improve Massive Wiki Builder
+- [ ] move MWB and MWT central repos from github:peterkaminski to github:Massive-Wiki
+	- [ ] fix all the links to the peterkaminski repos in READMEs and whatever else
 - [ ] create [[Opal]]
 - [ ] create [[Zirconia]]
+	- [ ] kill or revive [Missive Weaver](https://github.com/peterkaminski/missive-weaver)
 - [ ] create [[Pier2Pier]]
+	- [ ] may be obviated by [[Obsidian Git]]'s source control view
 
 ## Improve Massive Wiki Builder
 
 - [x] fuzzy linking
-- [ ] search (with e.g., Lunr)
+- [x] search (with e.g., Lunr)
+- [ ] [Format incipient links differently #37](https://github.com/peterkaminski/massivewikibuilder/issues/37)
 - [ ] merge index_wiki() and main processing loop #refactoring
 - [ ] merge all calls to .render() into one call #refactoring
 - [ ] separate home page template (generalize to _many_ page templates)
