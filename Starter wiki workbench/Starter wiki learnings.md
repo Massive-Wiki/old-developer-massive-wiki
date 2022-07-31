@@ -11,9 +11,13 @@ Reflections on using the massive-wiki-starter as the template for a personal Mas
 	- (3) versioning (is provided by Git repositories)
 	- (4) public web site requires web hosting (netlify.app is one option)
 - Decisions made; let's get started:
-	- choose a folder on your computer to contain your wiki content (I use ~/Documents/myWikis/ as the base and create a different folder for each wiki)
+	- choose a folder on your computer to contain your wiki content (Bill uses ~/Documents/myWikis/ as the base and create a different folder for each wiki)
 	- we are using Github, so this is one way to proceed:
 	- (1) general outline: use massive-wiki-starter repository code to populate the new wiki-repository (download .zip file? fork the repo?); initialize this content into its own Github repository; configure and add the MWB and MWT submodules (this is getting complicated); make sure everything is up-to-date; push the current state as a baseline version of this new wiki(?)
+	- (2022-07-31 update: https://cli.github.com/manual has some useful examples of how to proceed with a starter-wiki repository:   
+		e.g., `$ gh repo create mynewrepo --public --source=. --remote=upstream`
+		also see [[Github - getting started notes]]
+
 	- (2) edit the README.md file with information you want on your wiki home-page
 		- since we said "yes, we want a public website" now is the time to edit the MassiveWikiBuilder configuration file `.massivewikibuilder/mwb.yaml` , cf. [[MWB configuration]]
 		- using a Sidebar? now is the time to add content to [[Sidebar]]
