@@ -5,6 +5,6 @@
 - so now the test is to see what happens when
   (1) I look at the vault in Obsidian, and
   (2) I run MWB to build the website
-  - and the result is that I can see the note in Obsidian and MWB creates an html page that starts with `_` in place of `#`
-
   
+- test successful: page created in Emacs, viewed in Obsidian, website constructed and `#` replaced by `_` in MWB output
+
