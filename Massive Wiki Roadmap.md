@@ -24,7 +24,7 @@
 - [ ] merge index_wiki() and main processing loop #refactoring
 - [ ] merge all calls to .render() into one call #refactoring
 - [ ] separate home page template (generalize to _many_ page templates)
-- [ ] recent changes
+- [ ] recent changes / recent changes lite
 	- [ ] simple recent changes: have an alpha sort and chrono sort for All Pages (use [jQuery tabs](https://jqueryui.com/tabs/) to toggle)
 - [ ] more than one sidebar
 - [ ] additional css/fixes for sidebar in Basso theme
