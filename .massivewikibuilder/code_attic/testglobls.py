@@ -19,7 +19,7 @@ def main():
     print(dir_wiki)
 
     mdfiles = [f for f in glob.glob(f"{dir_wiki}/**/*.md", recursive=True)]
-    print("newest file: ", max(mdfiles, key=os.path.getctime))
+    Print("newest file: ", max(mdfiles, key=os.path.getctime))
     print("oldest file: ", min(mdfiles, key=os.path.getctime))
 
     for f in sorted(mdfiles,key=os.path.getmtime,reverse=True)[:5]:
