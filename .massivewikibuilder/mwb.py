@@ -246,7 +246,7 @@ def main():
                     (Path(dir_output) / path / clean_name).with_suffix(".html").write_text(html)
 
                     # remember this page for All Pages
-                    all_pages.append({'title':f"{readable_path}/{file[:-3]}", 'path':f"{path}/{clean_name[:-3]}.html"})
+                    all_pages.append({'title':f"{readable_path}/{file[:-3]}", 'path':f"{path}/{clean_name[:-3]}.html", 'modtime':os.path.getmtime(f"{dir_wiki}/{readable_path}/{file}")})
                 # copy all original files
                 logging.debug("copy all original files")
                 shutil.copy(Path(root) / file, Path(dir_output) / path / clean_name)
