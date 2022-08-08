@@ -2,7 +2,7 @@
 
 ## Massive Wiki Projects
 
-- [ ] update Developer Wiki to MWB 2.0, with new directory structure
+- [ ] update Developer Wiki to MWB 2.0, with new directory structure and search
 - [x] create Massive Wiki roadmap
 - [ ] create fractal/graph db of MW projects
 - [x] try Pijul
@@ -35,3 +35,4 @@
 - [ ] look at [Stork](https://stork-search.net/) for another search engine
 - [x] rewrite or otherwise improve mdx_wikilinks_plus
 - [x] sidebar
+- [ ] evaluate other [[Python Markdown engines]], add to or replace current library if appropriate
