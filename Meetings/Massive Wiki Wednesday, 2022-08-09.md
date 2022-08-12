@@ -41,13 +41,20 @@ git commit -m "start with Massive Wiki Starter"
 
 ### Push this new repo to GitHub
 
-(gh command goes here)
+```Shell
+gh repo create developer.massive.wiki --public --source=. --remote=upstream
+git branch -M main
+git remote add origin https://github.com/GH-UserID/developer.massive.wiki.git
+git push -u origin main
+```
+
 
 ### Copy content over from previous version
 
 - copy over all the MD files and .obsidian (but don't overwrite netlify.toml)
     - cd ../old-developer.massive.wiki
     - cp -av * ../developer.massive.wiki # doesn't copy dotfiles/dotdirectories
+    - cp -av .obsidian ../developer.massive.wiki # copy .obsidian
     - cd ../developer.massive.wiki
     - git checkout netlify.toml # restore netlify.toml we just copied over
 - copy over mwb.yaml
@@ -56,7 +63,7 @@ git commit -m "start with Massive Wiki Starter"
 
 ### Local Testing
 
-(add setting up venv, npm ci, etc.)
+(add setting up venv, pip install, npm ci, etc.)
 
 ## Next Steps
 

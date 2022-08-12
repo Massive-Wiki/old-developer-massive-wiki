@@ -15,6 +15,9 @@ $ git add README.md
 $ git commit -m "baseline commit" README.md
 $ git init
 $ gh repo create mynewrepo --public --source=. --remote=upstream
+$ git branch -M main
+$ git remote add origin https://github.com/GH-UserID/mynewrepo.git
+$ git push -u origin main
 ```
 
 - now we have a repo on Github and here and can proceed with more MWB
