@@ -4,9 +4,9 @@
 
 This process re-instantiates the submodules, which is good for keeping MWB and MWT files out of the repo (there's a reference pointer to the repos, but the files themselves don't get added to the repo), and also good for local testing.
 
-Assumption 0: shell commands are written for macOS and `zsh`
-Assumption 1: the existing wiki is named `wiki.vault.name` .
-Assumption 2: all commands in the scripts below are relative to the parent directory of this existing wiki.
+Assumption 0: shell commands are written for macOS and `zsh`  
+Assumption 1: the existing wiki is named `wiki.vault.name` .  
+Assumption 2: all commands in the scripts below are relative to the parent directory of this existing wiki.  
 
 ``` shell
 git clone git@github.com:Massive-Wiki/massive-wiki-starter.git temp-wiki.vault.name
