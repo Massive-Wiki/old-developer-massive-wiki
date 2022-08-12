@@ -37,7 +37,7 @@ git push -u origin main
 
 - copy over all the MD files and .obsidian (but don't overwrite netlify.toml)
 
-Assumption 2: all commands in the scripts below are relative to the parent directory of this existing wiki.
+Assumption 3: all commands in the scripts below are relative to the parent directory of this existing wiki.
 
 ```Shell
 cd wiki.vault.name # change directory into the old vault folder
@@ -59,7 +59,7 @@ git push
 
 ### Local Testing
 
-Assumption 3: `python3` and `node` are installed and available
+Assumption 4: `python3` and `node` are installed and available
 
 ```Shell
 cd temp-wiki.vault.name
