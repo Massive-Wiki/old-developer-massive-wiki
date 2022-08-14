@@ -35,17 +35,18 @@ git push -u origin main
 
 ### Copy content over from previous version
 
-- copy over all the MD files and .obsidian (but don't overwrite netlify.toml)
+- copy over all the MD files, ``.obsidian/`` , and `.massivewikibuilder/mwb.yaml`  (but don't overwrite `netlify.toml`)
 
-Assumption 3: all commands in the scripts below are relative to the parent directory of this existing wiki.
+Assumption 3: commands in the scripts below are relative to the parent directory of this existing wiki.
 
 ```Shell
 cd wiki.vault.name # change directory into the old vault folder
 cp -av * ../temp-wiki.vault.name # does not copy dotfiles/dotdirectories
 cp -av .obsidian ../temp-wiki.vault.name # copy over .obsidian directory
+cp .massivewikibuilder/mwb.yaml ../temp-wiki.vault.name/.massivewikibuilder/ # copy over mwb.yaml
 cd ../temp-wiki.vault.name
 git checkout netlify.toml # restore netlify.toml we just copied over
-cp ../wiki.vault.name/.massivewikibuilder/mwb.yaml .massivewikibuilder/ # copy over mwb.yaml
+
 ```
 
 ### Add the old wiki content to the new repository
@@ -67,7 +68,7 @@ cd .massivewikibuilder/massivewikibuilder
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-npm ci  # install the node_modules used by lunr search
+npm ci  # install the node_modules used by lunr search | ONLY NEEDED ONCE
 # run mwb using command from netlify.toml
 ./mwb.py -c ../mwb.yaml -w ../.. -o ../output -t ../this-wiki-themes/basso --lunr
 # if successful
