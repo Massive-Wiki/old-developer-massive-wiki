@@ -40,7 +40,7 @@ git push -u origin main
 
 ### Copy content over from previous version
 
-- copy over all the MD files, ``.obsidian/`` , and `.massivewikibuilder/mwb.yaml`  (but don't overwrite `netlify.toml`)
+Copy over all the MD files, ``.obsidian/`` , and `.massivewikibuilder/mwb.yaml`  (but don't overwrite `netlify.toml`)
 
 Assumption 4: commands in the scripts below are relative to the parent directory of this existing wiki.
 
