@@ -107,3 +107,7 @@ cd wiki-vault-name
 rm -rf .obsidian
 cp -a ../old-wiki-vault-name/.obsidian .
 ```
+
+### Invite people with access to the old repo to the new repo
+
+In the new repo on GitHub, go to Settings > Collaborators and teams.
