@@ -15,6 +15,7 @@
 	- [ ] kill or revive [Missive Weaver](https://github.com/peterkaminski/missive-weaver)
 - [ ] create [[Pier2Pier]]
 	- [ ] may be obviated by [[Obsidian Git]]'s source control view
+- [ ] announce MWB in Obsidian Forum and where people talk about Obsidian+Hugo
 
 ## Improve Massive Wiki Builder
 
