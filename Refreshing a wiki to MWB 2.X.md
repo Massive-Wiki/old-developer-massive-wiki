@@ -4,14 +4,15 @@
 
 This process re-instantiates the submodules, which is good for keeping MWB and MWT files out of the repo (there's a reference pointer to the repos, but the files themselves don't get added to the repo), and also good for local testing.
 
-Assumption 0: shell commands are written for macOS and `zsh`  
-Assumption 1: the existing wiki is named `wiki-vault-name` .  
-Assumption 2: all commands in the scripts below are relative to the parent directory of this existing wiki.  
+Assumption 0: shell commands are written for macOS and `zsh`
+Assumption 1: the existing wiki is named `$NEW_WIKI_VAULT_NAME` .
+Assumption 2: all commands in the scripts below are relative to the parent directory of this existing wiki.
 Assumption 3: the repo in GitHub belongs to `GH-UserID`, and isn't in a different organization (if it is, `gh` command needs to be changed)
 
 ``` shell
-git clone git@github.com:Massive-Wiki/massive-wiki-starter.git temp-wiki-vault-name
-cd temp-wiki-vault-name
+export NEW_WIKI_VAULT_NAME="developer-massive-wiki"
+git clone git@github.com:Massive-Wiki/massive-wiki-starter.git temp-$NEW_WIKI_VAULT_NAME
+cd temp-$NEW_WIKI_VAULT_NAME
 rm -rf .git
 git init
 cd .massivewikibuilder
@@ -27,14 +28,11 @@ git commit -m "start with Massive Wiki Starter"
 ### Push this new repo to GitHub
 
 ```Shell
-gh repo create temp-wiki-vault-name --public --source=. --remote=upstream
+export GITHUB_ORG_NAME="Your-GitHub-UserID-or-OrgName"
+gh repo create $GITHUB_ORG_NAME/temp-$NEW_WIKI_VAULT_NAME --public --source=. --remote=upstream
 git branch -M main
-
-# use either HTTPS or SSH line
-# git remote add origin https://github.com/GH-UserID/temp-wiki-vault-name.git
-# git remote add origin git@github.com:GH-UserID/wiki-vault-name.git
-
-git remote add origin https://github.com/GH-UserID/temp-wiki-vault-name.git
+git remote add origin https://github.com/$GITHUB_ORG_NAME/temp-$NEW_WIKI_VAULT_NAME.git
+# or git remote add origin git@github.com:$GITHUB_ORG_NAME/$NEW_WIKI_VAULT_NAME.git
 git push -u origin main
 ```
 
@@ -45,12 +43,12 @@ Copy over all the MD files, ``.obsidian/`` , and `.massivewikibuilder/mwb.yaml` 
 Assumption 4: commands in the scripts below are relative to the parent directory of this existing wiki.
 
 ```Shell
-cd wiki-vault-name # change directory into the old vault folder
-cp -av * ../temp-wiki-vault-name # does not copy dotfiles/dotdirectories
-rm ../temp-wiki-vault-name/.obsidian # ensure we don't copy _into_ .obsidian
-cp -av .obsidian ../temp-wiki-vault-name # copy over .obsidian directory
-cp .massivewikibuilder/mwb.yaml ../temp-wiki-vault-name/.massivewikibuilder/ # copy over mwb.yaml
-cd ../temp-wiki-vault-name
+cd $NEW_WIKI_VAULT_NAME # change directory into the old vault folder
+cp -av * ../temp-$NEW_WIKI_VAULT_NAME # does not copy dotfiles/dotdirectories
+rm ../temp-$NEW_WIKI_VAULT_NAME/.obsidian # ensure we don't copy _into_ .obsidian
+cp -av .obsidian ../temp-$NEW_WIKI_VAULT_NAME # copy over .obsidian directory
+cp .massivewikibuilder/mwb.yaml ../temp-$NEW_WIKI_VAULT_NAME/.massivewikibuilder/ # copy over mwb.yaml
+cd ../temp-$NEW_WIKI_VAULT_NAME
 git checkout netlify.toml # restore netlify.toml we just copied over
 
 ```
@@ -63,7 +61,7 @@ git push
 ```
 
 
-### set old repository name to old-wiki-vault-name on Github
+### set old repository name to old-$NEW_WIKI_VAULT_NAME on Github
 
 In the GitHub interface, go to Settings in the repo, and rename.
 
@@ -80,7 +78,7 @@ _(need `gh` command if available)_
 Assumption 4: `python3` and `node` are installed and available
 
 ```Shell
-cd temp-wiki-vault-name
+cd temp-$NEW_WIKI_VAULT_NAME
 cd .massivewikibuilder/massivewikibuilder
 python3 -m venv venv
 source venv/bin/activate
@@ -97,15 +95,15 @@ python3 -m http.server # open browser to localhost:8000 to view mwb output
 
 ```Shell
 cd ~/Documents/GitHub/ # or wherever wikis are
-mv wiki-vault-name old-wiki-vault-name
+mv $NEW_WIKI_VAULT_NAME old-$NEW_WIKI_VAULT_NAME
 
 # use either HTTPS or SSH line
-# git clone https://github.com/GH-UserID/wiki-vault-name.git
-# git clone git@github.com:GH-UserID/wiki-vault-name.git
+# git clone https://github.com/GH-UserID/$NEW_WIKI_VAULT_NAME.git
+# git clone git@github.com:GH-UserID/$NEW_WIKI_VAULT_NAME.git
 
-cd wiki-vault-name
+cd $NEW_WIKI_VAULT_NAME
 rm -rf .obsidian
-cp -a ../old-wiki-vault-name/.obsidian .
+cp -a ../old-$NEW_WIKI_VAULT_NAME/.obsidian .
 ```
 
 ### Invite people with access to the old repo to the new repo
