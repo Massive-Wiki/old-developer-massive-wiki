@@ -45,7 +45,7 @@ Assumption 4: commands in the scripts below are relative to the parent directory
 ```Shell
 cd $NEW_WIKI_VAULT_NAME # change directory into the old vault folder
 cp -av * ../temp-$NEW_WIKI_VAULT_NAME # does not copy dotfiles/dotdirectories
-rm ../temp-$NEW_WIKI_VAULT_NAME/.obsidian # ensure we don't copy _into_ .obsidian
+rm -fr ../temp-$NEW_WIKI_VAULT_NAME/.obsidian # ensure we don't copy _into_ .obsidian
 cp -av .obsidian ../temp-$NEW_WIKI_VAULT_NAME # copy over .obsidian directory
 cp .massivewikibuilder/mwb.yaml ../temp-$NEW_WIKI_VAULT_NAME/.massivewikibuilder/ # copy over mwb.yaml
 cd ../temp-$NEW_WIKI_VAULT_NAME
@@ -57,9 +57,21 @@ git checkout netlify.toml # restore netlify.toml we just copied over
 ```Shell
 git add --all ':!netlify.toml'
 git commit -m "old wiki content transfer"
-git push
+git push -v # -v: as in '... but verify'
 ```
 
+### copy over the old repo About description
+these two zsh commands *might* do it (the quotation marks need some special handling)
+```Shell
+# get old wiki repository About description
+# MUST BE IN the old vault folder
+REPO_ABOUT=$(eval gh repo view --json description | jq '.description')
+# restore old wiki repository About description
+cd ../temp-$NEW_WIKI_VAULT_NAME
+gh repo edit -d ${REPO_ABOUT:Q}
+# verify repo About description
+gh repo view --json description
+```
 
 ### set old repository name to old-$NEW_WIKI_VAULT_NAME on Github
 
