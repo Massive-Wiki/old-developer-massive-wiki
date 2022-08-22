@@ -1,5 +1,9 @@
 # Refreshing a wiki to MWB 2.x
 
+### Push any changes to the wiki
+
+Before you do anything else, have all contributors commit and push any changes to the wiki, and then have them close their Obsidian or other windows / editors on the wiki.  Have them wait to make changes while you do the following.
+
 ### Get a clean version for a new repo
 
 This process re-instantiates the submodules, which is good for keeping MWB and MWT files out of the repo (there's a reference pointer to the repos, but the files themselves don't get added to the repo), and also good for local testing.
