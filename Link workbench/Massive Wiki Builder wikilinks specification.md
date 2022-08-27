@@ -1,5 +1,7 @@
 # MWB wikilinks specification?
 
+see more about wiki links, filenames, and URLs at [[Link workbench]].
+
 (question mark missing from filename because Netlify doesn't like `?` or `#` in deployed filenames.)
 
 (Or something like a specification? use RFC template?)
