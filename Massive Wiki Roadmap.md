@@ -18,6 +18,7 @@
 
 - [ ] store Massive Wiki on Hyperdrive?
 - [ ] store Massive Wiki as [Noosphere](https://subconscious.substack.com/p/noosphere-a-protocol-for-thought) spheres?
+- [ ] publish Massive Wikis vis [Distributed Press](https://distributed.press/)?
 
 ## Blog About Our Experiences
 
