@@ -4,6 +4,7 @@ These are a set of pages that help us think through and test wiki link handling,
 
 See:
 - [[Massive Wiki Builder wikilinks specification]]
+- [Enhancement request: switchable transformation for page filename to slug · Issue \#34](https://github.com/peterkaminski/massivewikibuilder/issues/34)
 - other files in this directory
 
 Concepts include:
